@@ -1,0 +1,34 @@
+{
+  "name": "numbers21",
+  "version": "1.0.0",
+  "description": "numbers21 page",
+  "main": "app.js",
+  "scripts": {
+    "frontend": "npm start --prefix client",
+    "backend:dev": "cross-env NODE_ENV=production nodemon --exec babel-node server/app.js",
+    "backend:prod": "cross-env NODE_ENV=development nodemon --exec babel-node server/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "nolec",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/runtime-corejs2": "^7.8.4",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
+    "morgan": "^1.9.1",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "concurrently": "^5.1.0",
+    "cross-env": "^7.0.0",
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.2"
+  }
+}
