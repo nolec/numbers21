@@ -25,6 +25,36 @@ body {
     text-align: left;
     background-color: #fff;
 }
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .5rem;
+    font-family: inherit;
+    line-height: 1.2;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: #000;
+}
+h1{
+    font-size: 2.5rem;
+}
+p {
+    line-height: 1.75;
+    font-size: 20px;    
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+a{
+    display : block;
+    text-decoration: none;
+    background-color: transparent;
+    color : #000;
+    transition: all 0.3s ease-out;
+}
+ul,li {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    list-style : none;
+}
 `;
 
 export default globalStyles;

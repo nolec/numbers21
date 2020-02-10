@@ -1,19 +1,20 @@
 import React from "react";
-import { hot } from "react-hot-loader";
-import Route from "./Route";
+// import { hot } from "react-hot-loader";
+import Router from "./Router";
 import GlobalStyle from "./Styled/GlobalStyles";
 import theme from "./Styled/css";
 import { ThemeProvider } from "styled-components";
+import LangProvider from "../LangProvider";
 
 const App = () => {
   return (
-    <>
+    <LangProvider>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <Route />
+        <Router />
       </ThemeProvider>
-    </>
+    </LangProvider>
   );
 };
 
-export default hot(module)(App);
+export default App;
