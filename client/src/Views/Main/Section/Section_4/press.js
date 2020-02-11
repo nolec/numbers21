@@ -1,7 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../../../Context";
 import PressMedia from "../../PressMedia";
+import { useSelector, useDispatch } from "react-redux";
+import { mainPress } from "../../../../Actions/press";
 
 const Section = styled.section`
   ${props => props.theme.styles.SectionStyle};
@@ -19,14 +21,20 @@ const Title = styled.div`
 `;
 export default () => {
   const { lang } = useContext(LangContext);
-  console.log(lang);
+  const dispatch = useDispatch();
+  const { press } = useSelector(state => ({
+    press: state.press.press
+  }));
+  useEffect(() => {
+    dispatch(mainPress());
+  }, []);
   return (
     <Section>
       <Container>
         <Title>
           <h2>{lang.press01}</h2>
         </Title>
-        <PressMedia press={true} />
+        <PressMedia press={true} item={press} />
       </Container>
     </Section>
   );

@@ -4,9 +4,10 @@
   "description": "numbers21 page",
   "main": "app.js",
   "scripts": {
+    "dev": "concurrently \"npm run frontend\"  \"npm run backend:dev\"",
     "frontend": "npm start --prefix client",
-    "backend:dev": "cross-env NODE_ENV=production nodemon --exec babel-node server/app.js",
-    "backend:prod": "cross-env NODE_ENV=development nodemon --exec babel-node server/app.js",
+    "backend:dev": "cross-env NODE_ENV=development nodemon --exec babel-node server/app.js",
+    "backend:prod": "cross-env NODE_ENV=production nodemon --exec babel-node server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "nolec",
@@ -17,6 +18,7 @@
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "helmet": "^3.21.2",
+    "http-proxy-middleware": "^0.20.0",
     "morgan": "^1.9.1",
     "mysql": "^2.18.1"
   },

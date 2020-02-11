@@ -74,7 +74,7 @@ export default () => {
               <h4>{item.h4}</h4>
               <Ul>
                 {item.sub.map((list, i) => (
-                  <Li>
+                  <Li key={i}>
                     {list[2] === "" ? (
                       <Alink to={list[0]} target={list[2]}>
                         {list[1]}

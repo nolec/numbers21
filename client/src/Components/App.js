@@ -5,15 +5,19 @@ import GlobalStyle from "./Styled/GlobalStyles";
 import theme from "./Styled/css";
 import { ThemeProvider } from "styled-components";
 import LangProvider from "../LangProvider";
+import store from "../store";
+import { Provider } from "react-redux";
 
 const App = () => {
   return (
-    <LangProvider>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Router />
-      </ThemeProvider>
-    </LangProvider>
+    <Provider store={store}>
+      <LangProvider>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <Router />
+        </ThemeProvider>
+      </LangProvider>
+    </Provider>
   );
 };
 

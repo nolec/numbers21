@@ -1,7 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../../../Context";
 import PressMedia from "../../PressMedia";
+import { mainMedia } from "../../../../Actions/media";
+import { useDispatch, useSelector } from "react-redux";
 
 const Section = styled.section`
   ${props => props.theme.styles.SectionStyle};
@@ -20,14 +22,20 @@ const Title = styled.div`
 
 export default () => {
   const { lang } = useContext(LangContext);
-  console.log(lang);
+  const dispatch = useDispatch();
+  const { media } = useSelector(state => ({
+    media: state.media.media
+  }));
+  useEffect(() => {
+    dispatch(mainMedia());
+  }, []);
   return (
     <Section>
       <Container>
         <Title>
           <h2>{lang.media01}</h2>
         </Title>
-        <PressMedia />
+        <PressMedia item={media} />
       </Container>
     </Section>
   );

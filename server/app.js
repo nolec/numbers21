@@ -5,6 +5,9 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import path from "path";
 import dotenv from "dotenv";
+import pressRoute from "./routes/pressRoute";
+import mediaRoute from "./routes/mediaRoute";
+import mailRoute from "./routes/mailRoute";
 
 dotenv.config();
 const app = express();
@@ -14,6 +17,9 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/api/press", pressRoute);
+app.use("/api/media", mediaRoute);
+app.use("/api/mail", mailRoute);
 //------------------------------------
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.resolve(__dirname, "../../")));

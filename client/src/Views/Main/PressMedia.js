@@ -27,7 +27,7 @@ const Item = styled.div`
     text-decoration: underline;
   }
   a {
-    color: #fff;
+    color: #000;
     overflow: hidden;
     figure {
       width: 100%;
@@ -36,11 +36,12 @@ const Item = styled.div`
       padding: 0;
       background: #000;
       overflow: hidden;
-      border: 1px solid #fff;
+      border: 1px solid #000;
       img {
         height: 12vw;
         width: 100%;
         max-height: 160px;
+        vertical-align: middle;
       }
     }
     p {
@@ -89,7 +90,7 @@ const Sub = styled.div`
       width: 1px;
       height: 12px;
       margin-right: 11px;
-      background: #fff;
+      background: #000;
       opacity: 0.8;
     }
   }
@@ -105,31 +106,54 @@ const SLink = styled(Link)`
   background: #000;
   color: #fff;
   font-size: 18px;
+  :hover {
+    background: #fff;
+    color: #000;
+    border: 1px solid;
+  }
 `;
 
-export default ({ press }) => {
+export default ({ press, item }) => {
   const { lang } = useContext(LangContext);
-  console.log(lang);
+  console.log(item);
   return (
     <>
       <Articles>
-        <Item>
-          <a href="#" target="_blank" rel="noopener noreferrer">
-            <figure src="#" alt="poster">
-              <img alt="poster" />
-              {press ? (
-                <Logo>
-                  <img alt="logo" />
-                </Logo>
-              ) : null}
-            </figure>
-            <Sub>
-              <span></span>
-              <span></span>
-            </Sub>
-            <p></p>
-          </a>
-        </Item>
+        {item &&
+          item.length > 0 &&
+          item.map((result, i) => (
+            <Item key={i}>
+              <a
+                href={result.media_link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <figure alt="poster">
+                  <img
+                    src={`/images/${press ? "press" : "media"}/${
+                      result.poster_img_filename
+                    }`}
+                    alt="poster"
+                  />
+                  {press ? (
+                    <Logo>
+                      <img
+                        src={`/images/${press ? "press" : "media"}/${
+                          result.logo_img_filename
+                        }`}
+                        alt="logo"
+                      />
+                    </Logo>
+                  ) : null}
+                </figure>
+                <Sub>
+                  <span>{result.media_name}</span>
+                  <span>{result.reg_date}</span>
+                </Sub>
+                <p>{result.title}</p>
+              </a>
+            </Item>
+          ))}
       </Articles>
       <SeeMore>
         <SLink to={press ? "/press" : "/media"}>{lang.seeMore}</SLink>

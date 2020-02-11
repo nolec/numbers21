@@ -50,7 +50,6 @@ const PhotoBox = styled.div`
 const Photo = styled.img.attrs(props => ({ src: props.theme.file.photo }))``;
 export default () => {
   const { lang } = useContext(LangContext);
-  console.log(lang);
   return (
     <Section>
       <Container>

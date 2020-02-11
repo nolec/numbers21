@@ -62,7 +62,6 @@ const More = styled(Link)`
 `;
 export default () => {
   const { lang } = useContext(LangContext);
-  console.log(lang);
   return (
     <Section>
       <Container>

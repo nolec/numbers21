@@ -1,0 +1,6 @@
+export const PRESS_LOAD_MAIN = "PRESS_LOAD_MAIN";
+export const PRESS_FAIL_MAIN = "PRESS_FAIL_MAIN";
+export const MEDIA_LOAD_MAIN = "MEDIA_LOAD_MAIN";
+export const MEDIA_FAIL_MAIN = "MEDIA_FAIL_MAIN";
+export const MAIL_FAIL = "MAIL_FAIL";
+export const MAIL_SUCCESS = "MAIL_SUCCESS";

@@ -39,7 +39,6 @@ const MainTitle = styled.div``;
 
 export default () => {
   const { lang } = useContext(LangContext);
-  console.log(lang);
   return (
     <Section>
       <BG></BG>
