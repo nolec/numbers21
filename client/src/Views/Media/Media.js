@@ -39,7 +39,7 @@ export default () => {
     <Section>
       <Container>
         <HBox>
-          <h2>Press</h2>
+          <h2>Media</h2>
         </HBox>
         <SeeMore>
           {/* {press.cnt && press.chainPress.length === press.cnt ? null : (

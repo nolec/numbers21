@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../Context";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 
 const Section = styled.section`
   ${props => props.theme.styles.SectionStyle};
@@ -23,31 +22,14 @@ const HBox = styled.div`
   padding-bottom: 20px;
   margin-bottom: 80px;
 `;
-const SeeMore = styled.div`
-  width: 100%;
-  text-align: center;
-  margin-top: 90px;
-`;
-const SLink = styled(Link)`
-  padding: 10px 30px;
-  background: #393939;
-  color: #fff;
-  font-size: 22px;
-`;
+
 export default () => {
   return (
     <Section>
       <Container>
         <HBox>
-          <h2>Press</h2>
+          <h2>Investor Relations</h2>
         </HBox>
-        <SeeMore>
-          {/* {press.cnt && press.chainPress.length === press.cnt ? null : (
-            <SLink to="#none" onClick={handleClick}>
-              {lang.seeMore}
-            </SLink>
-          )} */}
-        </SeeMore>
       </Container>
     </Section>
   );
