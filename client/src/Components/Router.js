@@ -14,8 +14,8 @@ import Careers from "../Views/Carrers";
 import Contact from "../Views/Contact";
 import Investor from "../Views/Investor";
 import Footer from "./Footer";
-import Detail from "../Views/Investor/Detail";
 import { LangContext } from "../Context";
+
 export default () => {
   const { languageSetting, korean } = useContext(LangContext);
   useEffect(() => {

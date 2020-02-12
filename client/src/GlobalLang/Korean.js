@@ -188,5 +188,6 @@ export const ko = {
   investor02: "주가현황",
   investor03: "공시정보",
   investor04: "IR자료실",
-  investor05: "공지 등록"
+  investor05: "공지 등록",
+  detail01: "목록보기"
 };

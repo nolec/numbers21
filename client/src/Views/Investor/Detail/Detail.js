@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { LangContext } from "../../../Context";
 import { useDispatch, useSelector } from "react-redux";
 import { detailBoard } from "../../../Actions/board";
+import { Link } from "react-router-dom";
 
 const ContentBox = styled.div``;
 const Header = styled.div`
@@ -39,6 +40,24 @@ const Desc = styled.div`
   margin: 0 auto;
   overflow: hidden;
 `;
+const Footer = styled.div`
+  position: relative;
+  margin-top: 20px;
+  padding-right: 15px;
+  text-align: right;
+`;
+const Back = styled(Link)`
+  display: inline-block;
+  background-color: #000;
+  color: #fff;
+  padding: 8px 20px;
+  font-size: 18px;
+  :hover {
+    background: #fff;
+    color: #000;
+    border: 1px solid #a6a6a6;
+  }
+`;
 export default ({ match }) => {
   const { lang } = useContext(LangContext);
   const dispatch = useDispatch();
@@ -51,12 +70,11 @@ export default ({ match }) => {
     type,
     list
   };
+  const test = () => {
+    return { __html: "<p>hello<p>" };
+  };
   useEffect(() => {
     dispatch(detailBoard(formData));
-    if (detail) {
-      const desc = document.querySelector(".desc");
-      desc.innerHTML = detail.content;
-    }
   }, [dispatch]);
   return (
     <ContentBox>
@@ -69,8 +87,11 @@ export default ({ match }) => {
         </Date>
       </Header>
       <Body>
-        <Desc className="desc"></Desc>
+        <Desc className="desc" dangerouslySetInnerHTML={test()}></Desc>
       </Body>
+      <Footer>
+        <Back>{lang.detail01}</Back>
+      </Footer>
     </ContentBox>
   );
 };

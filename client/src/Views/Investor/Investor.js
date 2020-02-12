@@ -13,6 +13,7 @@ const Section = styled.section`
 `;
 const Container = styled.div`
   ${props => props.theme.styles.ContainerStyle};
+  position: relative;
 `;
 const HBox = styled.div`
   position: relative;
