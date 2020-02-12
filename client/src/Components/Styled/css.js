@@ -33,11 +33,24 @@ const ContainerStyle = () => css`
   margin-right: auto;
   margin-left: auto;
 `;
+const SlinkStyle = () => css`
+  display: inline-block;
+  padding: 10px 40px;
+  background: #000;
+  color: #fff;
+  font-size: 18px;
+  :hover {
+    background: #fff;
+    color: #000;
+    border: 1px solid;
+  }
+`;
 const theme = {
   css: { black: "#000" },
   styles: {
     SectionStyle,
-    ContainerStyle
+    ContainerStyle,
+    SlinkStyle
   },
   file: {
     fontFamily,

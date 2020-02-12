@@ -25,4 +25,32 @@ mediaRoute.get("/main", async (req, res) => {
     return res.status(500).json({ error: error });
   }
 });
+mediaRoute.get("/:page", async (req, res) => {
+  const page = parseInt(req.params.page) * 7 + parseInt(req.params.page);
+  try {
+    db.getConnection((err, con) => {
+      if (err) {
+        con.release();
+        throw err;
+      }
+      con.query(
+        `CALL spt_GetMediasAdmin(?,?,@total_row_count); SELECT @total_row_count AS total_row_count;`,
+        [0, page],
+        (err, rows, fields) => {
+          if (err) {
+            con.release();
+            throw err;
+          }
+          const result = rows.filter(
+            (row, i) => row.constructor.name !== "OkPacket"
+          );
+          con.release();
+          return res.json(result);
+        }
+      );
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+});
 export default mediaRoute;

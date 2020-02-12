@@ -14,6 +14,7 @@ import Careers from "../Views/Carrers";
 import Contact from "../Views/Contact";
 import Investor from "../Views/Investor";
 import Footer from "./Footer";
+import Detail from "../Views/Investor/Detail";
 import { LangContext } from "../Context";
 export default () => {
   const { languageSetting, korean } = useContext(LangContext);
@@ -26,13 +27,23 @@ export default () => {
         <Nav />
         <Switch>
           <Route path="/" exact component={Main} />
-          <Route path="/timeline" component={Timeline} />
-          <Route path="/press" component={Press} />
-          <Route path="/media" component={Media} />
-          <Route path="/careers" component={Careers} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/investor" component={Investor} />
-          <Redirect from="/*" to="/" />
+          <Route path="/timeline" exact component={Timeline} />
+          <Redirect from="/timeline*" to="/timeline" />
+          <Route path="/press" exact component={Press} />
+          <Redirect from="/press*" to="/press" />
+          <Route path="/media" exact component={Media} />
+          <Redirect from="/media*" to="/media" />
+          <Route path="/careers" exact component={Careers} />
+          <Redirect from="/careers*" to="/careers" />
+          <Route path="/contact" exact component={Contact} />
+          <Redirect from="/contact*" to="/contact" />
+          <Route path="/investor" exact component={Investor} />
+          <Route
+            path="/investor/detail/:type/:list"
+            exact
+            component={Investor}
+          />
+          <Redirect from="*" to="/" />
         </Switch>
         <Footer />
       </Router>

@@ -1,8 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../Context";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { mediaMedia } from "../../Actions/media";
+import PressMedia from "../../Components/PressMedia";
 
 const Section = styled.section`
   ${props => props.theme.styles.SectionStyle};
@@ -29,24 +31,43 @@ const SeeMore = styled.div`
   margin-top: 90px;
 `;
 const SLink = styled(Link)`
+  display: inline-block;
   padding: 10px 30px;
   background: #393939;
   color: #fff;
   font-size: 22px;
 `;
 export default () => {
+  const { lang } = useContext(LangContext);
+  const dispatch = useDispatch();
+  const { media, cnt } = useSelector(state => ({
+    media: state.media.media[0],
+    cnt:
+      state.media.media[1] &&
+      state.media.media[1].length > 0 &&
+      state.media.media[1][0].total_row_count
+  }));
+  const [currentPage, setCurrentPage] = useState(1);
+  const handleClick = () => {
+    setCurrentPage(currentPage + 1);
+  };
+  console.log(media, cnt);
+  useEffect(() => {
+    dispatch(mediaMedia(currentPage));
+  }, [currentPage, dispatch]);
   return (
     <Section>
       <Container>
         <HBox>
           <h2>Media</h2>
         </HBox>
+        <PressMedia item={media} />
         <SeeMore>
-          {/* {press.cnt && press.chainPress.length === press.cnt ? null : (
-            <SLink to="#none" onClick={handleClick}>
+          {media && media.length === cnt ? null : (
+            <SLink to="#" onClick={handleClick}>
               {lang.seeMore}
             </SLink>
-          )} */}
+          )}
         </SeeMore>
       </Container>
     </Section>

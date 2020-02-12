@@ -40,7 +40,7 @@ export default () => {
           lang.nav.length > 0 &&
           lang.nav.map((navbar, index) => (
             <Li key={index}>
-              <Item to={navbar.split(" ")[0]}>
+              <Item to={`/${navbar.split(" ")[0]}`}>
                 <span>{navbar}</span>
               </Item>
             </Li>

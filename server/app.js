@@ -8,6 +8,7 @@ import dotenv from "dotenv";
 import pressRoute from "./routes/pressRoute";
 import mediaRoute from "./routes/mediaRoute";
 import mailRoute from "./routes/mailRoute";
+import boardRoute from "./routes/boardRoute";
 
 dotenv.config();
 const app = express();
@@ -20,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/press", pressRoute);
 app.use("/api/media", mediaRoute);
 app.use("/api/mail", mailRoute);
+app.use("/api/board", boardRoute);
 //------------------------------------
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.resolve(__dirname, "../../")));

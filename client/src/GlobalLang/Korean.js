@@ -183,5 +183,10 @@ export const ko = {
   contact05: "일반 문의",
   contact06: "사업 제휴",
   contact07: "개발자 지원",
-  contact08: "문의하기"
+  contact08: "문의하기",
+  investor01: "공고",
+  investor02: "주가현황",
+  investor03: "공시정보",
+  investor04: "IR자료실",
+  investor05: "공지 등록"
 };
