@@ -1,4 +1,9 @@
-import { BOARD_FAIL, BOARD_LOAD, BOARD_DETAIL_LOAD } from "../Actions/type";
+import {
+  BOARD_FAIL,
+  BOARD_LOAD,
+  BOARD_DETAIL_LOAD,
+  BOARD_WRITE_SUCCESS
+} from "../Actions/type";
 
 const initialState = {
   board: [],
@@ -13,6 +18,13 @@ export default (state = initialState, action) => {
       return { ...state, board: payload, loading: false };
     case BOARD_DETAIL_LOAD:
       return { ...state, detail: payload.shift(), loading: false };
+    case BOARD_WRITE_SUCCESS:
+      return {
+        ...state,
+        id: payload.last_insert_id,
+        success: payload.success,
+        loading: false
+      };
     case BOARD_FAIL:
       return { ...state, error: payload, loading: false };
 

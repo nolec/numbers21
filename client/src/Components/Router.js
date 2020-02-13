@@ -43,6 +43,13 @@ export default () => {
             exact
             component={Investor}
           />
+          <Route path="/investor/write" exact component={Investor} />
+          <Route
+            path="/investor/update/:type/:list"
+            exact
+            component={Investor}
+          />
+
           <Redirect from="*" to="/" />
         </Switch>
         <Footer />

@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../Context";
-import { useSelector, useDispatch } from "react-redux";
-import Table from "../../Components/Table";
+import Table from "./Table";
 import Detail from "./Detail";
+import Write from "./Write";
+import Update from "./Update/Update";
 
 const Section = styled.section`
   ${props => props.theme.styles.SectionStyle};
@@ -56,7 +57,7 @@ const PageName = styled.div`
   border: 1px solid #d3d3d3;
 `;
 
-export default ({ location, match }) => {
+export default ({ location, match, history }) => {
   const { lang } = useContext(LangContext);
   const [type, setType] = useState(1);
   const typeHandle = num => {
@@ -65,34 +66,44 @@ export default ({ location, match }) => {
     }
     setType(num);
   };
+  const component = () => {
+    if (location.pathname.includes("detail")) {
+      return <Detail match={match} history={history} />;
+    } else if (location.pathname.includes("write")) {
+      return <Write type={type} history={history} />;
+    } else if (location.pathname.includes("update")) {
+      return <Update />;
+    } else {
+      return <Table type={type} />;
+    }
+  };
   return (
     <Section>
       <Container>
         <HBox>
           <h2>Investor Relations</h2>
         </HBox>
-        <SubMenu>
-          <Ul>
-            <Li onClick={() => typeHandle(1)}>
-              <SubLink>{lang.investor01}</SubLink>
-            </Li>
-            <Li onClick={() => typeHandle(2)}>
-              <SubLink>{lang.investor02}</SubLink>
-            </Li>
-            <Li onClick={() => typeHandle(3)}>
-              <SubLink>{lang.investor03}</SubLink>
-            </Li>
-            <Li onClick={() => typeHandle(4)}>
-              <SubLink>{lang.investor04}</SubLink>
-            </Li>
-          </Ul>
-        </SubMenu>
-        <PageName>{lang.investor01}</PageName>
-        {location.pathname.includes("detail") ? (
-          <Detail match={match} />
-        ) : (
-          <Table type={type} />
+        {location.pathname.includes("detail") ||
+        location.pathname.includes("write") ? null : (
+          <SubMenu>
+            <Ul>
+              <Li onClick={() => typeHandle(1)}>
+                <SubLink>{lang.investor01}</SubLink>
+              </Li>
+              <Li onClick={() => typeHandle(2)}>
+                <SubLink>{lang.investor02}</SubLink>
+              </Li>
+              <Li onClick={() => typeHandle(3)}>
+                <SubLink>{lang.investor03}</SubLink>
+              </Li>
+              <Li onClick={() => typeHandle(4)}>
+                <SubLink>{lang.investor04}</SubLink>
+              </Li>
+            </Ul>
+          </SubMenu>
         )}
+        <PageName>{lang.investor01}</PageName>
+        {component()}
       </Container>
     </Section>
   );

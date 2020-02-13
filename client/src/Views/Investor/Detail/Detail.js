@@ -4,6 +4,7 @@ import { LangContext } from "../../../Context";
 import { useDispatch, useSelector } from "react-redux";
 import { detailBoard } from "../../../Actions/board";
 import { Link } from "react-router-dom";
+import { Button, makeStyles } from "@material-ui/core";
 
 const ContentBox = styled.div``;
 const Header = styled.div`
@@ -44,10 +45,12 @@ const Footer = styled.div`
   position: relative;
   margin-top: 20px;
   padding-right: 15px;
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  > div {
+  }
 `;
 const Back = styled(Link)`
-  display: inline-block;
   background-color: #000;
   color: #fff;
   padding: 8px 20px;
@@ -58,11 +61,22 @@ const Back = styled(Link)`
     border: 1px solid #a6a6a6;
   }
 `;
-export default ({ match }) => {
+const BtnBox = styled.div`
+  display: flex;
+`;
+const useStyles = makeStyles({
+  root: {
+    fontSize: "18px",
+    padding: ".25rem .5rem",
+    minWidth: "auto",
+    fontWeight: 600
+  }
+});
+export default ({ match, history }) => {
+  const classes = useStyles();
   const { lang } = useContext(LangContext);
   const dispatch = useDispatch();
   const { detail } = useSelector(state => ({ detail: state.board.detail }));
-  console.log(detail);
   const {
     params: { type, list }
   } = match;
@@ -70,8 +84,23 @@ export default ({ match }) => {
     type,
     list
   };
-  const test = () => {
-    return { __html: "<p>hello<p>" };
+  const innerHtml = text => {
+    return { __html: text };
+  };
+  const updateHandle = () => {
+    const u = window.confirm("수정하시겠습니까?");
+    if (u) {
+      history.push(`/investor/update/${type}/${list}`);
+    } else {
+      return false;
+    }
+  };
+  const deleteHandle = () => {
+    const d = window.confirm("삭제하시겠습니까?");
+    if (d) {
+      return true;
+    }
+    return false;
   };
   useEffect(() => {
     dispatch(detailBoard(formData));
@@ -87,10 +116,31 @@ export default ({ match }) => {
         </Date>
       </Header>
       <Body>
-        <Desc className="desc" dangerouslySetInnerHTML={test()}></Desc>
+        <Desc
+          className="desc"
+          dangerouslySetInnerHTML={detail && innerHtml(detail.content)}
+        ></Desc>
       </Body>
       <Footer>
-        <Back>{lang.detail01}</Back>
+        <BtnBox>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.root}
+            onClick={updateHandle}
+          >
+            수정
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.root}
+            onClick={deleteHandle}
+          >
+            삭제
+          </Button>
+        </BtnBox>
+        <Back to="/investor">{lang.detail01}</Back>
       </Footer>
     </ContentBox>
   );

@@ -13,3 +13,4 @@ export const MAIL_SUCCESS = "MAIL_SUCCESS";
 export const BOARD_LOAD = "MAIL_FAIL";
 export const BOARD_FAIL = "MAIL_SUCCESS";
 export const BOARD_DETAIL_LOAD = "BOARD_DETAIL_LOAD";
+export const BOARD_WRITE_SUCCESS = "BOARD_WRITE_SUCCESS";

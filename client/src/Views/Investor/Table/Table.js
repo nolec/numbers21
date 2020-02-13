@@ -1,10 +1,10 @@
 import React, { useEffect, useContext, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { getBoard } from "../Actions/board";
+import { getBoard } from "../../../Actions/board";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
-import { LangContext } from "../Context";
+import { LangContext } from "../../../Context";
 
 const TableBox = styled.div``;
 const Table = styled.table`
@@ -70,8 +70,10 @@ const DetailLink = styled(Link)`
   display: inline-block;
   padding: 0 5px;
   font-size: 18px;
+  min-width: 10px;
+  min-height: 10px;
   :hover {
-    color: #a5a5a5;
+    color: #a5a5a5 !important;
   }
 `;
 const SignUp = styled.div`
@@ -91,6 +93,7 @@ const SignLink = styled(Link)`
   border-color: #17a2b8;
   :hover {
     background-color: #15717f;
+    color: #fff;
   }
 `;
 const Paging = styled.div``;
@@ -159,7 +162,7 @@ export default ({ type }) => {
         </Table>
       </TableBox>
       <SignUp>
-        <SignLink to="/write">{lang.investor05}</SignLink>
+        <SignLink to="/investor/write">{lang.investor05}</SignLink>
       </SignUp>
       <Paging>
         <Nav>

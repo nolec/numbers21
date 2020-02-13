@@ -45,7 +45,7 @@ p {
 }
 a{
     display : block;
-    text-decoration: none;
+    text-decoration: none !important;
     background-color: transparent;
     color : #000;
     transition: all 0.3s ease-out;

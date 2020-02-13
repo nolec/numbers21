@@ -57,4 +57,31 @@ boardRoute.get("/detail/:type/:list", async (req, res) => {
     return res.status(500).json({ success: false, error });
   }
 });
+boardRoute.post("/write", async (req, res) => {
+  const { type, title, contents } = req.body;
+  const sql =
+    "CALL spt_InsertBoard(?, ?, ?,@last_insert_id); SELECT @last_insert_id as last_insert_id;";
+  try {
+    db.getConnection((err, con) => {
+      if (err) {
+        con.release();
+        throw err;
+      }
+      con.query(sql, [type, title, contents], (err, rows, fields) => {
+        if (err) {
+          con.release();
+          throw err;
+        }
+        const result = rows
+          .filter((row, i) => row.constructor.name !== "OkPacket")
+          .shift()
+          .shift();
+        console.log(Object.assign(result, { success: true }));
+        return res.json(Object.assign(result, { success: true }));
+      });
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+});
 export default boardRoute;
