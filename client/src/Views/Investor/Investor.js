@@ -72,7 +72,7 @@ export default ({ location, match, history }) => {
     } else if (location.pathname.includes("write")) {
       return <Write type={type} history={history} />;
     } else if (location.pathname.includes("update")) {
-      return <Update />;
+      return <Update match={match} history={history} />;
     } else {
       return <Table type={type} />;
     }

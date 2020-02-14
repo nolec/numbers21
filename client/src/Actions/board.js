@@ -2,7 +2,10 @@ import {
   BOARD_LOAD,
   BOARD_FAIL,
   BOARD_DETAIL_LOAD,
-  BOARD_WRITE_SUCCESS
+  BOARD_WRITE_SUCCESS,
+  BOARD_UPDATE_SUCCESS,
+  BOARD_DELETE_SUCCESS,
+  BOARD_FILE_UPLOAD
 } from "./type";
 import axios from "axios";
 
@@ -38,6 +41,61 @@ export const writeBoard = (formData, history) => async dispatch => {
       alert("등록 실패");
       return Error("Error");
     }
+  } catch (error) {
+    dispatch({ type: BOARD_FAIL, payload: error });
+  }
+};
+export const updateBoard = (formData, history) => async dispatch => {
+  try {
+    const res = await axios.post("/api/board/update", formData);
+    if (res.data.success) {
+      alert("수정 완료");
+      dispatch({ type: BOARD_UPDATE_SUCCESS, payload: res.data });
+      return history.push("/investor");
+    } else {
+      alert("수정 실패");
+      return Error("Error");
+    }
+  } catch (error) {
+    dispatch({ type: BOARD_FAIL, payload: error });
+  }
+};
+export const deletBoard = (type, list, history) => async dispatch => {
+  try {
+    const res = await axios.delete(`/api/board/delete/${type}/${list}`);
+    if (res.data.success) {
+      alert("삭제 완료");
+      dispatch({ type: BOARD_DELETE_SUCCESS, payload: res.data });
+      return history.push("/investor");
+    } else {
+      alert("삭제 실패");
+      return Error("Error");
+    }
+  } catch (error) {
+    dispatch({ type: BOARD_FAIL, payload: error });
+  }
+};
+export const uploadFile = files => async dispatch => {
+  const { fileUpload1, fileUpload2, fileUpload3 } = files;
+  const uploadFile = new FormData();
+  const config = {
+    header: {
+      "content-type": "multipart/form-data"
+    }
+  };
+  if (fileUpload1 !== "") uploadFile.append("file", fileUpload1[0]);
+  if (fileUpload2 !== "") uploadFile.append("file", fileUpload2[0]);
+  if (fileUpload3 !== "") uploadFile.append("file", fileUpload3[0]);
+  console.log(fileUpload1, uploadFile);
+  try {
+    const res = await axios.post(`/api/board/upload`, uploadFile, config);
+    console.log(res.data);
+    if (res.data.success) {
+      await axios.post(`/api/board/sql/upload`, res.data.files);
+    } else {
+      throw Error;
+    }
+    dispatch({ type: BOARD_FILE_UPLOAD, payload: res.data });
   } catch (error) {
     dispatch({ type: BOARD_FAIL, payload: error });
   }

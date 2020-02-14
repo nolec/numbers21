@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../../Context";
 import { useDispatch, useSelector } from "react-redux";
-import { detailBoard } from "../../../Actions/board";
+import { detailBoard, deletBoard } from "../../../Actions/board";
 import { Link } from "react-router-dom";
 import { Button, makeStyles } from "@material-ui/core";
 
@@ -98,7 +98,7 @@ export default ({ match, history }) => {
   const deleteHandle = () => {
     const d = window.confirm("삭제하시겠습니까?");
     if (d) {
-      return true;
+      dispatch(deletBoard(type, list, history));
     }
     return false;
   };

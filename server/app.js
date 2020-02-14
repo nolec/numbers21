@@ -22,6 +22,7 @@ app.use("/api/press", pressRoute);
 app.use("/api/media", mediaRoute);
 app.use("/api/mail", mailRoute);
 app.use("/api/board", boardRoute);
+console.log(__dirname);
 //------------------------------------
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.resolve(__dirname, "../../")));

@@ -1,5 +1,6 @@
 import express from "express";
 import db from "../db";
+import upload from "../middlewares/upload";
 
 const boardRoute = express.Router();
 
@@ -68,6 +69,93 @@ boardRoute.post("/write", async (req, res) => {
         throw err;
       }
       con.query(sql, [type, title, contents], (err, rows, fields) => {
+        if (err) {
+          con.release();
+          throw err;
+        }
+        const result = rows
+          .filter((row, i) => row.constructor.name !== "OkPacket")
+          .shift()
+          .shift();
+        console.log(Object.assign(result, { success: true }));
+        return res.json(Object.assign(result, { success: true }));
+      });
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+});
+boardRoute.post("/update", async (req, res) => {
+  const { type, list, title, contents } = req.body;
+  const sql =
+    "CALL spt_UpdateBoard(?, ?, ?,?,@return); SELECT @return as _return";
+  try {
+    db.getConnection((err, con) => {
+      if (err) {
+        con.release();
+        throw err;
+      }
+      con.query(sql, [type, list, title, contents], (err, rows, fields) => {
+        if (err) {
+          con.release();
+          throw err;
+        }
+        const result = rows
+          .filter((row, i) => row.constructor.name !== "OkPacket")
+          .shift()
+          .shift();
+        console.log(Object.assign(result, { success: true }));
+        return res.json(Object.assign(result, { success: true }));
+      });
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+});
+boardRoute.delete("/delete/:type/:list", async (req, res) => {
+  const { type, list } = req.params;
+  const sql = "CALL spt_RemoveBoard(?, ?, @return); SELECT @return as _return";
+  try {
+    db.getConnection((err, con) => {
+      if (err) {
+        con.release();
+        throw err;
+      }
+      con.query(sql, [type, list], (err, rows, fields) => {
+        if (err) {
+          con.release();
+          throw err;
+        }
+        const result = rows
+          .filter((row, i) => row.constructor.name !== "OkPacket")
+          .shift()
+          .shift();
+        console.log(Object.assign(result, { success: true }));
+        return res.json(Object.assign(result, { success: true }));
+      });
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+});
+boardRoute.post("/upload", async (req, res) => {
+  upload(req, res, error => {
+    if (error) {
+      return res.status(400).json({ success: false, error: error.message });
+    }
+    return res.json({ success: true, files: res.req.files });
+  });
+});
+boardRoute.post("/sql/upload", async (req, res) => {
+  const sql =
+    "CALL spt_InsertBoardFile(?,?,?,@return); SELECT @return as _return";
+  try {
+    db.getConnection((err, con) => {
+      if (err) {
+        con.release();
+        throw err;
+      }
+      con.query(sql, [2, "file", "original_filename"], (err, rows, fields) => {
         if (err) {
           con.release();
           throw err;

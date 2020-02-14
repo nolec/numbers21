@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ReactSummernote from "../../../Utils/summernote";
 import "react-summernote/dist/react-summernote.css"; // import styles
@@ -6,6 +6,7 @@ import "../../../Utils/lang/summernote-ko-KR"; // you can import any other local
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { writeBoard } from "../../../Actions/board";
+import FileUpload from "./FileUpload";
 
 const Write = styled.div``;
 const Title = styled.div`
@@ -74,23 +75,44 @@ const Back = styled(Link)`
 `;
 const Btn = styled(Back.withComponent("button"))``;
 
-export default ({ type, history, update }) => {
-  const note = useRef(null);
+export default ({
+  type,
+  history,
+  update,
+  updateHandle,
+  updateData,
+  setUpdateData,
+  setContent
+}) => {
   const dispatch = useDispatch();
-  const { detail } = useSelector(state => ({ detail: state.board.detail }));
-  //Title Onchange--------------------------------------------------------------------
+  const { detail, loading } = useSelector(state => ({
+    detail: state.board.detail,
+    loading: state.board.loading
+  }));
+  //Update list 가져오기
+  const [send, setSend] = useState(false);
+  //Write Data-------------------------------------------------------------------
   const [formData, setFormData] = useState({
     type: type,
-    title: "",
-    contents: ""
+    title: ""
   });
+  const [writeContent, setWrtieContent] = useState({ contents: "" });
+
   const titleHandle = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (update && detail) {
+      setUpdateData({ ...updateData, [e.target.name]: e.target.value });
+    } else {
+      console.log(e.target.value);
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
   //Summernote Onchange--------------------------------------------------------------------
-  const onChange = (contents, insertText) => {
-    setFormData({ ...formData, contents: contents.toString() });
-    console.log("onChange", note.current);
+  const onChange = contents => {
+    if (update && detail) {
+      setContent({ contents: contents.toString() });
+    } else {
+      setWrtieContent({ contents: contents.toString() });
+    }
   };
   const onImageUpload = (images, insertImage) => {
     console.log("onImageUpload", images);
@@ -110,32 +132,34 @@ export default ({ type, history, update }) => {
   const submitHandle = () => {
     const u = window.confirm("등록하시겠습니까?");
     if (u) {
+      Object.assign(formData, writeContent);
       console.log(formData);
-      dispatch(writeBoard(formData, history));
+      setSend(true);
+      // dispatch(writeBoard(formData, history));
     } else {
       return false;
     }
   };
   useEffect(() => {
-    if (detail && update) {
-      ReactSummernote.pasteHTML(detail.content);
+    if (send) {
+      setSend(false);
     }
-  }, [detail]);
+  }, [send]);
   return (
     <Write>
       <Title>
         <label htmlFor="input">Title</label>
         <Input
           name="title"
-          onChange={titleHandle}
-          value={detail && update ? detail.title : ""}
+          onChange={e => titleHandle(e)}
+          value={update ? updateData.title : formData.title}
           type="text"
         />
       </Title>
       <Content>
         <label htmlFor="contents">Contents</label>
         <ReactSummernote
-          value={detail && update ? detail.content : ""}
+          value="Default"
           options={{
             lang: "ko-KR",
             height: 700,
@@ -150,14 +174,18 @@ export default ({ type, history, update }) => {
               ["view", ["fullscreen", "codeview"]]
             ]
           }}
-          onChange={onChange}
+          onChange={e => onChange(e)}
           onImageUpload={onImageUpload}
-          ref={note}
         />
       </Content>
+      <FileUpload send={send} />
       <BtnBox>
         <Back to="/investor">목록보기</Back>
-        {update ? "" : <Btn onClick={submitHandle}>등록하기</Btn>}
+        {update ? (
+          <Btn onClick={updateHandle}>수정하기</Btn>
+        ) : (
+          <Btn onClick={submitHandle}>등록하기</Btn>
+        )}
       </BtnBox>
     </Write>
   );
