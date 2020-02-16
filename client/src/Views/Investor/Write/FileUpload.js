@@ -34,27 +34,26 @@ const TextInput = styled.input`
   background-clip: padding-box;
   border: 1px solid #ced4da;
 `;
-const Btn = styled.span`
-  label {
-    cursor: pointer;
-    display: inline-block;
-    font-weight: 400;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    user-select: none;
-    border: 1px solid transparent;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    border-radius: 0.25rem;
-    color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
-    :hover {
-      background-color: #005bbc;
-      border-color: #005bbc;
-    }
+const Btn = styled.span``;
+const Label = styled.label`
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  color: #fff;
+  background-color: ${props => (props.red ? "#ff0000;" : "#007bff;")};
+  border-color: ${props => (props.red ? "#ff0000;" : "#007bff;")};
+  :hover {
+    background-color: ${props => (props.red ? "#ff0000;" : "#007bff;")};
+    border-color: ${props => (props.red ? "#ff0000;" : "#007bff;")};
   }
 `;
 export default ({ send }) => {
@@ -65,14 +64,32 @@ export default ({ send }) => {
     fileUpload2: "",
     fileUpload3: ""
   });
+  const [names, setNames] = useState({
+    fileUpload1: "",
+    fileUpload2: "",
+    fileUpload3: ""
+  });
   const fileOpen = e => {
     e.preventDefault();
-    console.log(fileInput.current.children[0].firstChild.id);
-    console.log(e.currentTarget.htmlFor);
+    console.log(
+      e.currentTarget.parentElement.parentElement.parentElement,
+      e.currentTarget.htmlFor
+    );
     if (
-      fileInput.current.children[0].firstChild.id === e.currentTarget.htmlFor
+      e.currentTarget.parentElement.parentElement.firstChild.id ===
+      e.currentTarget.htmlFor
     ) {
-      fileInput.current.children[0].firstChild.click();
+      e.currentTarget.parentElement.parentElement.parentElement.firstChild.click();
+    }
+  };
+  const fileDelete = e => {
+    e.preventDefault();
+    if (
+      e.currentTarget.parentElement.parentElement.firstChild.id ===
+      e.currentTarget.htmlFor
+    ) {
+      setFiles({ ...files, [e.currentTarget.htmlFor]: "" });
+      setNames({ ...names, [e.currentTarget.htmlFor]: "" });
     }
   };
   const onChange = e => {
@@ -80,6 +97,7 @@ export default ({ send }) => {
       e.target.value.split("\\").length - 1
     ];
     e.currentTarget.parentElement.children[1].firstChild.value = filename;
+    setNames({ ...names, [e.currentTarget.id]: filename });
     if (filename !== "") {
       if (e.currentTarget.id === "fileUpload1") {
         setFiles({ ...files, fileUpload1: e.currentTarget.files });
@@ -94,8 +112,14 @@ export default ({ send }) => {
   };
   useEffect(() => {
     if (send) {
-      console.log("보내자!!");
-      dispatch(uploadFile(files));
+      if (
+        files.fileUpload1 !== "" ||
+        files.fileUpload2 !== "" ||
+        files.fileUpload3 !== ""
+      ) {
+        console.log("보내자!!");
+        dispatch(uploadFile(files));
+      }
     }
   }, [send]);
   return (
@@ -103,33 +127,66 @@ export default ({ send }) => {
       <FileGroup>
         <File type="file" id="fileUpload1" onChange={onChange} />
         <StyleFile>
-          <TextInput type="text" id="fileUpload1" disabled={true} />
+          <TextInput
+            type="text"
+            id="fileUpload1"
+            disabled={true}
+            value={names.fileUpload1}
+          />
           <Btn>
-            <label htmlFor="fileUpload1" onClick={fileOpen}>
-              <span>파일첨부</span>
-            </label>
+            {files.fileUpload1 === "" ? (
+              <Label htmlFor="fileUpload1" red={false} onClick={fileOpen}>
+                <span>파일첨부</span>
+              </Label>
+            ) : (
+              <Label htmlFor="fileUpload1" red={true} onClick={fileDelete}>
+                <span>삭제하기</span>
+              </Label>
+            )}
           </Btn>
         </StyleFile>
       </FileGroup>
       <FileGroup>
         <File type="file" id="fileUpload2" onChange={onChange} />
         <StyleFile>
-          <TextInput type="text" id="fileUpload2" disabled={true} />
+          <TextInput
+            type="text"
+            id="fileUpload2"
+            disabled={true}
+            value={names.fileUpload2}
+          />
           <Btn>
-            <label htmlFor="fileUpload2">
-              <span>파일첨부</span>
-            </label>
+            {files.fileUpload2 === "" ? (
+              <Label htmlFor="fileUpload2" onClick={fileOpen}>
+                <span>파일첨부</span>
+              </Label>
+            ) : (
+              <Label htmlFor="fileUpload2" onClick={fileDelete}>
+                <span>삭제하기</span>
+              </Label>
+            )}
           </Btn>
         </StyleFile>
       </FileGroup>
       <FileGroup>
         <File type="file" id="fileUpload3" onChange={onChange} />
         <StyleFile>
-          <TextInput type="text" id="fileUpload3" disabled={true} />
+          <TextInput
+            type="text"
+            id="fileUpload3"
+            disabled={true}
+            value={names.fileUpload3}
+          />
           <Btn>
-            <label htmlFor="fileUpload3">
-              <span>파일첨부</span>
-            </label>
+            {files.fileUpload3 === "" ? (
+              <Label htmlFor="fileUpload3" onClick={fileOpen}>
+                <span>파일첨부</span>
+              </Label>
+            ) : (
+              <Label htmlFor="fileUpload3" onClick={fileDelete}>
+                <span>삭제하기</span>
+              </Label>
+            )}
           </Btn>
         </StyleFile>
       </FileGroup>
