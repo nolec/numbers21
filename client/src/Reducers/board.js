@@ -10,6 +10,7 @@ import {
 
 const initialState = {
   board: [],
+  files: [],
   detail: null,
   error: null,
   loading: true
@@ -20,7 +21,13 @@ export default (state = initialState, action) => {
     case BOARD_LOAD:
       return { ...state, board: payload, loading: false };
     case BOARD_DETAIL_LOAD:
-      return { ...state, detail: payload.shift(), loading: false };
+      console.log(payload);
+      return {
+        ...state,
+        detail: payload[0].shift(),
+        files: payload[1],
+        loading: false
+      };
     case BOARD_WRITE_SUCCESS:
     case BOARD_UPDATE_SUCCESS:
     case BOARD_DELETE_SUCCESS:

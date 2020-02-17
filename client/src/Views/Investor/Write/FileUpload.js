@@ -157,11 +157,11 @@ export default ({ send }) => {
           />
           <Btn>
             {files.fileUpload2 === "" ? (
-              <Label htmlFor="fileUpload2" onClick={fileOpen}>
+              <Label htmlFor="fileUpload2" red={false} onClick={fileOpen}>
                 <span>파일첨부</span>
               </Label>
             ) : (
-              <Label htmlFor="fileUpload2" onClick={fileDelete}>
+              <Label htmlFor="fileUpload2" red={true} onClick={fileDelete}>
                 <span>삭제하기</span>
               </Label>
             )}
@@ -179,11 +179,11 @@ export default ({ send }) => {
           />
           <Btn>
             {files.fileUpload3 === "" ? (
-              <Label htmlFor="fileUpload3" onClick={fileOpen}>
+              <Label htmlFor="fileUpload3" red={false} onClick={fileOpen}>
                 <span>파일첨부</span>
               </Label>
             ) : (
-              <Label htmlFor="fileUpload3" onClick={fileDelete}>
+              <Label htmlFor="fileUpload3" red={true} onClick={fileDelete}>
                 <span>삭제하기</span>
               </Label>
             )}

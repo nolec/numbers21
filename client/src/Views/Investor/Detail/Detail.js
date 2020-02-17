@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { detailBoard, deletBoard } from "../../../Actions/board";
 import { Link } from "react-router-dom";
 import { Button, makeStyles } from "@material-ui/core";
+import Download from "../Download";
 
 const ContentBox = styled.div``;
 const Header = styled.div`
@@ -41,6 +42,24 @@ const Desc = styled.div`
   margin: 0 auto;
   overflow: hidden;
 `;
+const FileBox = styled.div`
+  border-bottom: 1px solid #d3d3d3;
+  width: 100%;
+  padding: 10px 10px;
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  span {
+    font-weight: bold;
+  }
+  a {
+    color: #000;
+    padding-left: 10px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+  }
+`;
 const Footer = styled.div`
   position: relative;
   margin-top: 20px;
@@ -72,11 +91,15 @@ const useStyles = makeStyles({
     fontWeight: 600
   }
 });
+
 export default ({ match, history }) => {
   const classes = useStyles();
   const { lang } = useContext(LangContext);
   const dispatch = useDispatch();
-  const { detail } = useSelector(state => ({ detail: state.board.detail }));
+  const { detail, files } = useSelector(state => ({
+    detail: state.board.detail,
+    files: state.board.files
+  }));
   const {
     params: { type, list }
   } = match;
@@ -121,6 +144,13 @@ export default ({ match, history }) => {
           dangerouslySetInnerHTML={detail && innerHtml(detail.content)}
         ></Desc>
       </Body>
+      {files.length > 0 &&
+        files.map((file, i) => (
+          <FileBox key={i}>
+            <span>첨부파일{i + 1}.</span>
+            <Download filename={file.original_filename} />
+          </FileBox>
+        ))}
       <Footer>
         <BtnBox>
           <Button

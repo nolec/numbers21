@@ -58,7 +58,7 @@ export default () => {
             <h2>{lang.what01}</h2>
             <p>{lang.what02}</p>
             <PageMoveBox>
-              <PageMove>{lang.what03}</PageMove>
+              <PageMove to="/timeline">{lang.what03}</PageMove>
             </PageMoveBox>
           </Desc>
           <PhotoBox>

@@ -52,6 +52,10 @@ const Table = styled.table`
           text-align: center;
           padding-left: 0;
         }
+        > * {
+          padding: 0 5px;
+          font-size: 18px;
+        }
       }
     }
   }
@@ -116,6 +120,7 @@ const Nav = styled.nav`
     min-width: auto;
   }
 `;
+const Icon = styled.img.attrs(props => ({ src: props.theme.file.save }))``;
 export default ({ type }) => {
   const dispatch = useDispatch();
   const { lang } = useContext(LangContext);
@@ -145,7 +150,7 @@ export default ({ type }) => {
             </tr>
           </thead>
           <tbody>
-            {board.map(item => (
+            {board.map((item, i) => (
               <tr key={item.idx}>
                 <td>{item.idx}</td>
                 <td>
@@ -155,7 +160,11 @@ export default ({ type }) => {
                   <Hit>{item.read_count}</Hit>
                 </td>
                 <td>{item.regDate}</td>
-                <td>{item.filename1 !== "" ? "Yes" : "No"}</td>
+                <td>
+                  {item.filename1 === "" ? null : <Icon />}
+                  {item.filename2 === "" ? null : <Icon />}
+                  {item.filename3 === "" ? null : <Icon />}
+                </td>
               </tr>
             ))}
           </tbody>

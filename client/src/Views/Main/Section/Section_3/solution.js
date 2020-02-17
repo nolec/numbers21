@@ -75,7 +75,7 @@ export default () => {
                 <ContentBg style={{ backgroundImage: `url(${sol.solution})` }}>
                   <h3>{sol.h3}</h3>
                   <p>{sol.p}</p>
-                  <More>{lang.solution08}</More>
+                  <More to="/press">{lang.solution08}</More>
                 </ContentBg>
               </Content>
             );
