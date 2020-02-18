@@ -13,10 +13,7 @@ let storage = multer.diskStorage({
   filename: (req, file, callback) => {
     console.log(file, "---filename---");
     const date = dateFormat(new Date(), "yyyymmddHHMMssl");
-    callback(
-      null,
-      `${file.originalname}_${date}${path.extname(file.originalname)}`
-    );
+    callback(null, `${date}${path.extname(file.originalname)}`);
   }
 });
 
@@ -57,10 +54,8 @@ boardRoute.get("/detail/:type/:list", async (req, res) => {
   const type = req.params.type;
   const list = req.params.list;
   const sql = `CALL spt_GetBoardDetail(?, ?);`;
-  const sql2 = `CALL spt_GetBoardFile(?);`;
   try {
     db.getConnection((err, con) => {
-      let result = [];
       if (err) {
         con.release();
         throw err;
@@ -70,20 +65,9 @@ boardRoute.get("/detail/:type/:list", async (req, res) => {
           con.release();
           throw err;
         }
-        result.push(
-          rows.filter((row, i) => row.constructor.name !== "OkPacket").shift()
-        );
-        console.log(result);
-      });
-      con.query(sql2, [list], (err, rows, fields) => {
-        if (err) {
-          con.release();
-          throw err;
-        }
-        result.push(
-          rows.filter((row, i) => row.constructor.name !== "OkPacket").shift()
-        );
-        con.release();
+        const result = rows
+          .filter((row, i) => row.constructor.name !== "OkPacket")
+          .shift();
         console.log(result);
         return res.json(result);
       });
@@ -183,13 +167,15 @@ boardRoute.post("/upload", async (req, res) => {
 boardRoute.post("/sql/upload", async (req, res) => {
   const sql =
     "CALL spt_InsertBoardFile(?,?,?,@return); SELECT @return as _return";
+  console.log(req.body);
+  const { filename, originalname } = req.body;
   try {
     db.getConnection((err, con) => {
       if (err) {
         con.release();
         throw err;
       }
-      con.query(sql, [2, "file", "original_filename"], (err, rows, fields) => {
+      con.query(sql, [2, filename, originalname], (err, rows, fields) => {
         if (err) {
           con.release();
           throw err;
@@ -206,12 +192,47 @@ boardRoute.post("/sql/upload", async (req, res) => {
     return res.status(500).json({ error: error });
   }
 });
-boardRoute.get("/download", async (req, res) => {
+boardRoute.get("/download/file/:list", async (req, res) => {
+  const { list } = req.params;
+  const sql = "CALL spt_GetBoardFile(?)";
   try {
-    const file = fs.create;
-    return res.status(200);
+    db.getConnection((err, con) => {
+      if (err) {
+        con.release();
+        throw err;
+      }
+      con.query(sql, [list], (err, rows, fields) => {
+        if (err) {
+          con.release();
+          throw err;
+        }
+        con.release();
+        const result = rows
+          .filter((row, i) => row.constructor.name !== "OkPacket")
+          .shift();
+        // result.map(r =>
+        //   fs.readdir(
+        //     path.join(__dirname, "../uploads"),
+        //     { encoding: "utf8", flag: "r" },
+        //     (err, data) => {
+        //       if (err) {
+        //         throw err;
+        //       }
+        //       console.log(data);
+        //       data.filter(d => d === r.filename && uploadData.push(d));
+        //     }
+        //   )
+        // );
+        // console.log("Loaded", uploadData);
+
+        return res.status(200).json(result);
+      });
+    });
   } catch (error) {
     return res.status(500).json({ error: error });
   }
+});
+boardRoute.post("/test/test/test", (req, res) => {
+  console.log(req.file);
 });
 export default boardRoute;

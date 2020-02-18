@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../../Context";
 import { useDispatch, useSelector } from "react-redux";
-import { detailBoard, deletBoard } from "../../../Actions/board";
+import { detailBoard, deletBoard, downloadFile } from "../../../Actions/board";
 import { Link } from "react-router-dom";
 import { Button, makeStyles } from "@material-ui/core";
 import Download from "../Download";
@@ -128,6 +128,9 @@ export default ({ match, history }) => {
   useEffect(() => {
     dispatch(detailBoard(formData));
   }, [dispatch]);
+  useEffect(() => {
+    dispatch(downloadFile(list));
+  }, [dispatch]);
   return (
     <ContentBox>
       <Header>
@@ -148,7 +151,11 @@ export default ({ match, history }) => {
         files.map((file, i) => (
           <FileBox key={i}>
             <span>첨부파일{i + 1}.</span>
-            <Download filename={file.original_filename} />
+            <Download
+              list={formData.list}
+              filename={file.filename}
+              orgName={file.original_filename}
+            />
           </FileBox>
         ))}
       <Footer>

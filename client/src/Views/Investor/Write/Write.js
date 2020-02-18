@@ -85,9 +85,10 @@ export default ({
   setContent
 }) => {
   const dispatch = useDispatch();
-  const { detail, loading } = useSelector(state => ({
+  const { detail, loading, files } = useSelector(state => ({
     detail: state.board.detail,
-    loading: state.board.loading
+    loading: state.board.loading,
+    files: state.board.files
   }));
   //Update list 가져오기
   const [send, setSend] = useState(false);
@@ -178,7 +179,7 @@ export default ({
           onImageUpload={onImageUpload}
         />
       </Content>
-      <FileUpload send={send} />
+      <FileUpload send={send} file={files} />
       <BtnBox>
         <Back to="/investor">목록보기</Back>
         {update ? (

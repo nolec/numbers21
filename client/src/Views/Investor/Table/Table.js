@@ -5,6 +5,7 @@ import { getBoard } from "../../../Actions/board";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { LangContext } from "../../../Context";
+import Download from "../Download";
 
 const TableBox = styled.div``;
 const Table = styled.table`
@@ -48,6 +49,12 @@ const Table = styled.table`
       border-bottom: 1px solid #d3d3d3;
       td {
         padding: 20px 0 20px 30px;
+        &:last-child {
+          display: flex;
+          a {
+            display: inline-flex;
+          }
+        }
         &:nth-child(1) {
           text-align: center;
           padding-left: 0;
@@ -120,7 +127,6 @@ const Nav = styled.nav`
     min-width: auto;
   }
 `;
-const Icon = styled.img.attrs(props => ({ src: props.theme.file.save }))``;
 export default ({ type }) => {
   const dispatch = useDispatch();
   const { lang } = useContext(LangContext);
@@ -132,8 +138,6 @@ export default ({ type }) => {
     page,
     type
   };
-
-  console.log(board);
   useEffect(() => {
     dispatch(getBoard(formData));
   }, [type, dispatch]);
@@ -161,9 +165,27 @@ export default ({ type }) => {
                 </td>
                 <td>{item.regDate}</td>
                 <td>
-                  {item.filename1 === "" ? null : <Icon />}
-                  {item.filename2 === "" ? null : <Icon />}
-                  {item.filename3 === "" ? null : <Icon />}
+                  {item.filename1 === "" ? null : (
+                    <Download
+                      table={true}
+                      filename={item.filename1}
+                      orgName={item.org_filename1}
+                    />
+                  )}
+                  {item.filename2 === "" ? null : (
+                    <Download
+                      table={true}
+                      filename={item.filename2}
+                      orgName={item.org_filename2}
+                    />
+                  )}
+                  {item.filename3 === "" ? null : (
+                    <Download
+                      table={true}
+                      filename={item.filename3}
+                      orgName={item.org_filename3}
+                    />
+                  )}
                 </td>
               </tr>
             ))}

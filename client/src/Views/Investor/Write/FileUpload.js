@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import { uploadFile } from "../../../Actions/board";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Axios from "axios";
 
 const FileBox = styled.div`
   margin-top: 1rem;
@@ -11,7 +12,7 @@ const FileGroup = styled.div`
   margin-bottom: 1rem;
   width: 100%;
 `;
-const File = styled.input`
+const FileItem = styled.input`
   position: absolute;
   clip: rect(0px, 0px, 0px, 0px);
 `;
@@ -56,9 +57,13 @@ const Label = styled.label`
     border-color: ${props => (props.red ? "#ff0000;" : "#007bff;")};
   }
 `;
-export default ({ send }) => {
+export default ({ send, file }) => {
   const fileInput = useRef(null);
   const dispatch = useDispatch();
+  // const { loading, file } = useSelector(state => ({
+  //   loading: state.board.loading,
+  //   file: state.board.files
+  // }));
   const [files, setFiles] = useState({
     fileUpload1: "",
     fileUpload2: "",
@@ -122,10 +127,26 @@ export default ({ send }) => {
       }
     }
   }, [send]);
+  useEffect(() => {
+    console.log(files);
+    if (file && file.length > 0) {
+      setFiles({
+        fileUpload1: file[0] && file[0] !== "" ? file[0].filename : "",
+        fileUpload2: file[1] && file[1] !== "" ? file[1].filename : "",
+        fileUpload3: file[2] && file[2] !== "" ? file[2].filename : ""
+      });
+      setNames({
+        fileUpload1: file[0] && file[0] !== "" ? file[0].original_filename : "",
+        fileUpload2: file[1] && file[1] !== "" ? file[1].original_filename : "",
+        fileUpload3: file[2] && file[2] !== "" ? file[2].original_filename : ""
+      });
+    }
+  }, []);
+  console.log(names, files);
   return (
     <FileBox ref={fileInput}>
       <FileGroup>
-        <File type="file" id="fileUpload1" onChange={onChange} />
+        <FileItem type="file" id="fileUpload1" onChange={onChange} />
         <StyleFile>
           <TextInput
             type="text"
@@ -147,7 +168,7 @@ export default ({ send }) => {
         </StyleFile>
       </FileGroup>
       <FileGroup>
-        <File type="file" id="fileUpload2" onChange={onChange} />
+        <FileItem type="file" id="fileUpload2" onChange={onChange} />
         <StyleFile>
           <TextInput
             type="text"
@@ -156,7 +177,7 @@ export default ({ send }) => {
             value={names.fileUpload2}
           />
           <Btn>
-            {files.fileUpload2 === "" ? (
+            {names.fileUpload2 === "" ? (
               <Label htmlFor="fileUpload2" red={false} onClick={fileOpen}>
                 <span>파일첨부</span>
               </Label>
@@ -169,7 +190,7 @@ export default ({ send }) => {
         </StyleFile>
       </FileGroup>
       <FileGroup>
-        <File type="file" id="fileUpload3" onChange={onChange} />
+        <FileItem type="file" id="fileUpload3" onChange={onChange} />
         <StyleFile>
           <TextInput
             type="text"
@@ -178,7 +199,7 @@ export default ({ send }) => {
             value={names.fileUpload3}
           />
           <Btn>
-            {files.fileUpload3 === "" ? (
+            {names.fileUpload3 === "" ? (
               <Label htmlFor="fileUpload3" red={false} onClick={fileOpen}>
                 <span>파일첨부</span>
               </Label>

@@ -5,7 +5,8 @@ import {
   BOARD_WRITE_SUCCESS,
   BOARD_UPDATE_SUCCESS,
   BOARD_DELETE_SUCCESS,
-  BOARD_FILE_UPLOAD
+  BOARD_FILE_UPLOAD,
+  BOARD_DOWNLOAD_FILE
 } from "../Actions/type";
 
 const initialState = {
@@ -21,11 +22,9 @@ export default (state = initialState, action) => {
     case BOARD_LOAD:
       return { ...state, board: payload, loading: false };
     case BOARD_DETAIL_LOAD:
-      console.log(payload);
       return {
         ...state,
-        detail: payload[0].shift(),
-        files: payload[1],
+        detail: payload.shift(),
         loading: false
       };
     case BOARD_WRITE_SUCCESS:
@@ -35,6 +34,12 @@ export default (state = initialState, action) => {
         ...state,
         id: payload.last_insert_id,
         success: payload.success,
+        loading: false
+      };
+    case BOARD_DOWNLOAD_FILE:
+      return {
+        ...state,
+        files: payload,
         loading: false
       };
     case BOARD_FILE_UPLOAD:

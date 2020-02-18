@@ -5,7 +5,8 @@ import {
   BOARD_WRITE_SUCCESS,
   BOARD_UPDATE_SUCCESS,
   BOARD_DELETE_SUCCESS,
-  BOARD_FILE_UPLOAD
+  BOARD_FILE_UPLOAD,
+  BOARD_DOWNLOAD_FILE
 } from "./type";
 import axios from "axios";
 
@@ -91,11 +92,28 @@ export const uploadFile = files => async dispatch => {
     const res = await axios.post(`/api/board/upload`, uploadFile, config);
     console.log(res.data);
     if (res.data.success) {
-      await axios.post(`/api/board/sql/upload`, res.data.files);
+      await axios.post(`/api/board/sql/upload`, res.data.files[0]);
     } else {
       throw Error;
     }
     dispatch({ type: BOARD_FILE_UPLOAD, payload: res.data });
+  } catch (error) {
+    dispatch({ type: BOARD_FAIL, payload: error });
+  }
+};
+export const downloadFile = list => async dispatch => {
+  try {
+    const res = await axios({
+      url: `http://localhost:5000/server/uploads/20200217153446494.png`,
+      method: "GET",
+      responseType: "blob"
+    });
+    let fileReader = new FileReader();
+    fileReader.readAsDataURL(res.data);
+    const url = window.URL.createObjectURL(new Blob([res.data]));
+    const res2 = await axios.get(`/api/board/download/file/${list}`);
+    console.log(fileReader, res.data, res2.data);
+    dispatch({ type: BOARD_DOWNLOAD_FILE, payload: res2.data });
   } catch (error) {
     dispatch({ type: BOARD_FAIL, payload: error });
   }
