@@ -13,7 +13,7 @@ export default ({ filename, orgName, table }) => {
     console.log(filename, orgName);
     const Down = async () => {
       const res = await axios({
-        url: `http://localhost:5000/server/uploads/${filename}`,
+        url: `http://localhost:5000/${filename}`,
         method: "GET",
         responseType: "blob"
       });
@@ -21,7 +21,7 @@ export default ({ filename, orgName, table }) => {
       setUrl(url);
     };
     Down();
-  }, [filename]);
+  }, [table]);
   return (
     <Download href={url} download={`${orgName}`}>
       <Icon />

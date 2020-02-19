@@ -70,7 +70,7 @@ const Table = styled.table`
 const Hit = styled.span`
   background: #fc5454;
   color: #fff;
-  font-size: 13px;
+  font-size: 13px !important;
   font-weight: bold;
   min-width: 20px;
   border: 1px solid #ffadad;
@@ -129,8 +129,12 @@ const Nav = styled.nav`
 `;
 export default ({ type }) => {
   const dispatch = useDispatch();
+  const [table, setTable] = useState(true);
   const { lang } = useContext(LangContext);
-  const { board } = useSelector(state => ({ board: state.board.board }));
+  const { board, loading } = useSelector(state => ({
+    board: state.board.board,
+    loading: state.board.loading
+  }));
 
   const [page, setPage] = useState(1);
 
@@ -167,21 +171,21 @@ export default ({ type }) => {
                 <td>
                   {item.filename1 === "" ? null : (
                     <Download
-                      table={true}
+                      table={table}
                       filename={item.filename1}
                       orgName={item.org_filename1}
                     />
                   )}
                   {item.filename2 === "" ? null : (
                     <Download
-                      table={true}
+                      table={table}
                       filename={item.filename2}
                       orgName={item.org_filename2}
                     />
                   )}
                   {item.filename3 === "" ? null : (
                     <Download
-                      table={true}
+                      table={table}
                       filename={item.filename3}
                       orgName={item.org_filename3}
                     />

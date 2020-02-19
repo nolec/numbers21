@@ -1,8 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
-import { uploadFile } from "../../../Actions/board";
+import { uploadFile, writeBoard, deleteFile } from "../../../Actions/board";
 import { useDispatch, useSelector } from "react-redux";
-import Axios from "axios";
 
 const FileBox = styled.div`
   margin-top: 1rem;
@@ -57,22 +56,27 @@ const Label = styled.label`
     border-color: ${props => (props.red ? "#ff0000;" : "#007bff;")};
   }
 `;
-export default ({ send, file }) => {
+export default ({
+  write,
+  file,
+  update,
+  setWrtieFile,
+  writeFile,
+  updateFile,
+  setUpdateFile
+}) => {
   const fileInput = useRef(null);
   const dispatch = useDispatch();
-  // const { loading, file } = useSelector(state => ({
-  //   loading: state.board.loading,
-  //   file: state.board.files
-  // }));
-  const [files, setFiles] = useState({
-    fileUpload1: "",
-    fileUpload2: "",
-    fileUpload3: ""
-  });
+
   const [names, setNames] = useState({
     fileUpload1: "",
     fileUpload2: "",
     fileUpload3: ""
+  });
+  const [idx, setIdx] = useState({
+    fileUpload1: file[0] && file[0].idx,
+    fileUpload2: file[1] && file[1].idx,
+    fileUpload3: file[2] && file[2].idx
   });
   const fileOpen = e => {
     e.preventDefault();
@@ -87,14 +91,25 @@ export default ({ send, file }) => {
       e.currentTarget.parentElement.parentElement.parentElement.firstChild.click();
     }
   };
-  const fileDelete = e => {
+  const fileDelete = (e, idx) => {
     e.preventDefault();
-    if (
-      e.currentTarget.parentElement.parentElement.firstChild.id ===
-      e.currentTarget.htmlFor
-    ) {
-      setFiles({ ...files, [e.currentTarget.htmlFor]: "" });
-      setNames({ ...names, [e.currentTarget.htmlFor]: "" });
+    console.log(file, idx, e.currentTarget);
+    const d = window.confirm("삭제하시겠습니까?");
+    if (d) {
+      if (
+        e.currentTarget.parentElement.parentElement.firstChild.id ===
+        e.currentTarget.htmlFor
+      ) {
+        if (write) {
+          setWrtieFile({ ...writeFile, [e.currentTarget.htmlFor]: "" });
+        } else if (update) {
+          dispatch(deleteFile(idx));
+          setUpdateFile({ ...updateFile, [e.currentTarget.htmlFor]: "" });
+        }
+        setNames({ ...names, [e.currentTarget.htmlFor]: "" });
+      }
+    } else {
+      return false;
     }
   };
   const onChange = e => {
@@ -105,44 +120,63 @@ export default ({ send, file }) => {
     setNames({ ...names, [e.currentTarget.id]: filename });
     if (filename !== "") {
       if (e.currentTarget.id === "fileUpload1") {
-        setFiles({ ...files, fileUpload1: e.currentTarget.files });
+        if (write) {
+          setWrtieFile({ ...writeFile, fileUpload1: e.currentTarget.files });
+        } else if (update) {
+          setUpdateFile({ ...updateFile, fileUpload1: e.currentTarget.files });
+        }
       }
       if (e.currentTarget.id === "fileUpload2") {
-        setFiles({ ...files, fileUpload2: e.currentTarget.files });
+        if (write) {
+          setWrtieFile({ ...writeFile, fileUpload2: e.currentTarget.files });
+        } else if (update) {
+          setUpdateFile({ ...updateFile, fileUpload2: e.currentTarget.files });
+        }
       }
       if (e.currentTarget.id === "fileUpload3") {
-        setFiles({ ...files, fileUpload3: e.currentTarget.files });
+        if (write) {
+          setWrtieFile({ ...writeFile, fileUpload3: e.currentTarget.files });
+        } else if (update) {
+          setUpdateFile({ ...updateFile, fileUpload3: e.currentTarget.files });
+        }
       }
     }
   };
   useEffect(() => {
-    if (send) {
-      if (
-        files.fileUpload1 !== "" ||
-        files.fileUpload2 !== "" ||
-        files.fileUpload3 !== ""
-      ) {
-        console.log("보내자!!");
-        dispatch(uploadFile(files));
-      }
+    if (write) {
+      console.log("wirte : ", write, file);
     }
-  }, [send]);
-  useEffect(() => {
-    console.log(files);
-    if (file && file.length > 0) {
-      setFiles({
-        fileUpload1: file[0] && file[0] !== "" ? file[0].filename : "",
-        fileUpload2: file[1] && file[1] !== "" ? file[1].filename : "",
-        fileUpload3: file[2] && file[2] !== "" ? file[2].filename : ""
-      });
-      setNames({
-        fileUpload1: file[0] && file[0] !== "" ? file[0].original_filename : "",
-        fileUpload2: file[1] && file[1] !== "" ? file[1].original_filename : "",
-        fileUpload3: file[2] && file[2] !== "" ? file[2].original_filename : ""
-      });
+    if (update) {
+      console.log("update : ", update, file);
     }
   }, []);
-  console.log(names, files);
+
+  useEffect(() => {
+    if (file && file.length > 0) {
+      if (write) {
+        setWrtieFile({
+          fileUpload1: file[0] && file[0] !== "" ? file[0].filename : "",
+          fileUpload2: file[1] && file[1] !== "" ? file[1].filename : "",
+          fileUpload3: file[2] && file[2] !== "" ? file[2].filename : ""
+        });
+      } else if (update) {
+        setUpdateFile({
+          fileUpload1: file[0] && file[0] !== "" ? file[0].filename : "",
+          fileUpload2: file[1] && file[1] !== "" ? file[1].filename : "",
+          fileUpload3: file[2] && file[2] !== "" ? file[2].filename : ""
+        });
+        setNames({
+          fileUpload1:
+            file[0] && file[0] !== "" ? file[0].original_filename : "",
+          fileUpload2:
+            file[1] && file[1] !== "" ? file[1].original_filename : "",
+          fileUpload3:
+            file[2] && file[2] !== "" ? file[2].original_filename : ""
+        });
+      }
+    }
+  }, []);
+  console.log(names, writeFile, updateFile, "fileupload-----------");
   return (
     <FileBox ref={fileInput}>
       <FileGroup>
@@ -155,12 +189,16 @@ export default ({ send, file }) => {
             value={names.fileUpload1}
           />
           <Btn>
-            {files.fileUpload1 === "" ? (
+            {names.fileUpload1 === "" ? (
               <Label htmlFor="fileUpload1" red={false} onClick={fileOpen}>
                 <span>파일첨부</span>
               </Label>
             ) : (
-              <Label htmlFor="fileUpload1" red={true} onClick={fileDelete}>
+              <Label
+                htmlFor="fileUpload1"
+                red={true}
+                onClick={e => fileDelete(e, idx && idx.fileUpload1)}
+              >
                 <span>삭제하기</span>
               </Label>
             )}
@@ -182,7 +220,11 @@ export default ({ send, file }) => {
                 <span>파일첨부</span>
               </Label>
             ) : (
-              <Label htmlFor="fileUpload2" red={true} onClick={fileDelete}>
+              <Label
+                htmlFor="fileUpload2"
+                red={true}
+                onClick={e => fileDelete(e, idx && idx.fileUpload2)}
+              >
                 <span>삭제하기</span>
               </Label>
             )}
@@ -204,7 +246,11 @@ export default ({ send, file }) => {
                 <span>파일첨부</span>
               </Label>
             ) : (
-              <Label htmlFor="fileUpload3" red={true} onClick={fileDelete}>
+              <Label
+                htmlFor="fileUpload3"
+                red={true}
+                onClick={e => fileDelete(e, idx && idx.fileUpload3)}
+              >
                 <span>삭제하기</span>
               </Label>
             )}

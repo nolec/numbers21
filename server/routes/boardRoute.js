@@ -2,7 +2,6 @@ import express, { response } from "express";
 import db from "../db";
 import multer from "multer";
 import path from "path";
-import fs from "fs";
 import dateFormat from "dateformat";
 
 let storage = multer.diskStorage({
@@ -164,10 +163,10 @@ boardRoute.post("/upload", async (req, res) => {
     return res.json({ success: true, files: res.req.files });
   });
 });
-boardRoute.post("/sql/upload", async (req, res) => {
+boardRoute.post("/sql/upload/:list", async (req, res) => {
+  const { list } = req.params;
   const sql =
     "CALL spt_InsertBoardFile(?,?,?,@return); SELECT @return as _return";
-  console.log(req.body);
   const { filename, originalname } = req.body;
   try {
     db.getConnection((err, con) => {
@@ -175,7 +174,7 @@ boardRoute.post("/sql/upload", async (req, res) => {
         con.release();
         throw err;
       }
-      con.query(sql, [2, filename, originalname], (err, rows, fields) => {
+      con.query(sql, [list, filename, originalname], (err, rows, fields) => {
         if (err) {
           con.release();
           throw err;
@@ -232,7 +231,30 @@ boardRoute.get("/download/file/:list", async (req, res) => {
     return res.status(500).json({ error: error });
   }
 });
-boardRoute.post("/test/test/test", (req, res) => {
-  console.log(req.file);
+boardRoute.delete("/delete/update/file/:list", async (req, res) => {
+  const { list } = req.params;
+  const sql = "CALL spt_RemoveBoardFile(?,@return); SELECT @return as _return ";
+  try {
+    db.getConnection((err, con) => {
+      if (err) {
+        con.release();
+        throw err;
+      }
+      con.query(sql, [list], (err, rows, fields) => {
+        if (err) {
+          con.release();
+          throw err;
+        }
+        con.release();
+        const result = rows
+          .filter((row, i) => row.constructor.name !== "OkPacket")
+          .shift()
+          .shift();
+        return res.status(200).json(result);
+      });
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
 });
 export default boardRoute;
