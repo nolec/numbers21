@@ -10,6 +10,7 @@ import mediaRoute from "./routes/mediaRoute";
 import mailRoute from "./routes/mailRoute";
 import boardRoute from "./routes/boardRoute";
 import cors from "cors";
+import requestIp from "request-ip";
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,7 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(requestIp.mw({ attributeName: "attributeIp" }));
 
 app.use("/api/press", pressRoute);
 app.use("/api/media", mediaRoute);

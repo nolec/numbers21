@@ -3,6 +3,7 @@ import db from "../db";
 import multer from "multer";
 import path from "path";
 import dateFormat from "dateformat";
+import { ipConfirm } from "../middlewares/ipConfirm";
 
 let storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -49,11 +50,14 @@ boardRoute.get("/:type/:page", async (req, res) => {
     return res.status(500).json({ success: false, error });
   }
 });
-boardRoute.get("/detail/:type/:list", async (req, res) => {
+boardRoute.get("/detail/:type/:list", ipConfirm, async (req, res) => {
   const type = req.params.type;
   const list = req.params.list;
   const sql = `CALL spt_GetBoardDetail(?, ?);`;
   try {
+    if (req.body.ip) {
+      console.log("여기는 오케이", req.body.reqIp);
+    }
     db.getConnection((err, con) => {
       if (err) {
         con.release();
