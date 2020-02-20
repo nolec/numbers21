@@ -2,14 +2,18 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../../../Context";
 import { Link } from "react-router-dom";
+import { device } from "../../../../device";
 
 const Section = styled.section`
   ${props => props.theme.styles.SectionStyle};
   padding: 145px 0;
   background: #000;
+  ${device.PC`padding: 110px 0;`}
+  ${device.PC767`padding : 65px 0;`}
 `;
 const Container = styled.div`
   ${props => props.theme.styles.ContainerStyle};
+  ${device.PC767`padding: 0 25px;margin: 0 auto;`}
 `;
 const ContentBox = styled.div`
   display: flex;
@@ -26,10 +30,13 @@ const Desc = styled.div`
     color: #fff;
     font-size: 40px;
     margin-top: 0;
+    ${device.PC767`font-size: 32px;margin-top: 15px;`}
   }
   p {
     margin-bottom: 30px;
   }
+  ${device.PC`flex-basis : 50%;`}
+  ${device.PC767`order: 2;margin-top: 40px;`}
 `;
 const PageMoveBox = styled.div``;
 const PageMove = styled(Link)`
@@ -46,6 +53,11 @@ const PageMove = styled(Link)`
 const PhotoBox = styled.div`
   flex-shrink: 1;
   margin-left: 6%;
+  img {
+    width: 100%;
+  }
+  ${device.PC`margin-left: 0; flex-basis : 50%;`}
+  ${device.PC767`flex-basis : 100%;order: 1;margin-left: 0;`}
 `;
 const Photo = styled.img.attrs(props => ({ src: props.theme.file.photo }))``;
 export default () => {

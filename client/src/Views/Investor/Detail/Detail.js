@@ -2,10 +2,16 @@ import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../../Context";
 import { useDispatch, useSelector } from "react-redux";
-import { detailBoard, deletBoard, downloadFile } from "../../../Actions/board";
+import {
+  detailBoard,
+  deletBoard,
+  downloadFile,
+  registHit
+} from "../../../Actions/board";
 import { Link } from "react-router-dom";
 import { Button, makeStyles } from "@material-ui/core";
 import Download from "../Download";
+import { device } from "../../../device";
 
 const ContentBox = styled.div``;
 const Header = styled.div`
@@ -27,6 +33,7 @@ const Date = styled.div`
   vertical-align: text-bottom;
   color: #777;
   width: 20%;
+  ${device.PC990`font-size : 14px;width : 100%;`}
   span {
     position: absolute;
     right: 15px;
@@ -41,6 +48,9 @@ const Desc = styled.div`
   width: 100%;
   margin: 0 auto;
   overflow: hidden;
+  p {
+    font-size: 18px;
+  }
 `;
 const FileBox = styled.div`
   border-bottom: 1px solid #d3d3d3;
@@ -96,9 +106,10 @@ export default ({ match, history }) => {
   const classes = useStyles();
   const { lang } = useContext(LangContext);
   const dispatch = useDispatch();
-  const { detail, files } = useSelector(state => ({
+  const { detail, files, ip } = useSelector(state => ({
     detail: state.board.detail,
-    files: state.board.files
+    files: state.board.files,
+    ip: state.board.ip
   }));
   const {
     params: { type, list }
@@ -127,6 +138,7 @@ export default ({ match, history }) => {
   };
   useEffect(() => {
     dispatch(detailBoard(formData));
+    dispatch(registHit(formData));
   }, [dispatch]);
   useEffect(() => {
     dispatch(downloadFile(list));
@@ -160,22 +172,26 @@ export default ({ match, history }) => {
         ))}
       <Footer>
         <BtnBox>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.root}
-            onClick={updateHandle}
-          >
-            수정
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.root}
-            onClick={deleteHandle}
-          >
-            삭제
-          </Button>
+          {ip ? (
+            <>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.root}
+                onClick={updateHandle}
+              >
+                수정
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.root}
+                onClick={deleteHandle}
+              >
+                삭제
+              </Button>
+            </>
+          ) : null}
         </BtnBox>
         <Back to="/investor">{lang.detail01}</Back>
       </Footer>

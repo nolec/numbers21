@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import NavBar from "./NavBar";
 
 const Header = styled.header`
@@ -36,15 +36,16 @@ const ImgLogo = styled.img.attrs(props => ({
   width: auto;
   height: auto;
 `;
-export default () => {
+export default withRouter(({ history }) => {
+  console.log(history);
   return (
     <Header>
       <Container>
         <LogoBox to="/">
           <ImgLogo />
         </LogoBox>
-        <NavBar />
+        <NavBar history={history} />
       </Container>
     </Header>
   );
-};
+});

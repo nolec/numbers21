@@ -22,6 +22,8 @@ const Section = styled.section`
   ${props => props.theme.styles.SectionStyle};
   padding: 0 0 120px;
   margin-top: 100px;
+  ${device.PC767`    padding: 0 0 60px 0;
+    margin-top: 60px;`}
 `;
 const Container = styled.div`
   ${props => props.theme.styles.ContainerStyle};
@@ -36,6 +38,7 @@ const HBox = styled.div`
   border-bottom: 1px #cacaca dotted;
   padding-bottom: 20px;
   margin-bottom: 80px;
+  ${device.PC768`margin-bottom: 20px;font-size : 28px;`}
 `;
 const ContactBox = styled.div`
   width: 100%;
@@ -50,11 +53,14 @@ const Left = styled.div`
   max-width: 50%;
   padding-right: 15px;
   padding-left: 15px;
-  ${device.PC900`width : 100%;`}
+  ${device.PC900`flex : 0 0 50%;max-width : 50%;`}
+  ${device.PC768`flex : 0 0 100%;max-width : 100%;`}
 `;
 const Right = styled.div`
   text-align: right;
-  ${device.PC900`display : none;`}
+  display: flex;
+  align-items: center;
+  ${device.PC767`display : none;`}
 `;
 const Img = styled.img.attrs(props => ({ src: props.theme.file.contactBg }))`
   width: 100%;
@@ -69,6 +75,7 @@ const FooterTitle = styled.div`
     color: #000;
     font-size: 30px;
     margin-bottom: 1rem;
+    ${device.PC580`font-size: 24px;`}
   }
 `;
 const InquiryBox = styled.div`
@@ -78,6 +85,7 @@ const InquiryBox = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   padding-bottom: 30px;
+  ${device.PC580`margin-top : 0;`}
 `;
 const Inquiry = styled.div`
   width: 100%;
@@ -85,8 +93,9 @@ const Inquiry = styled.div`
   padding-top: 30px;
   padding-right: 15px;
   padding-left: 15px;
+  ${device.PC580`padding-top: 15px;`}
   ${minDevice.minPC576`    flex: 0 0 50%;max-width: 50%;`}
-  ${minDevice.minPC768`    flex: 0 0 33.3333%;max-width: 33.33333%;`}
+  ${minDevice.minPC992`    flex: 0 0 33.3333%;max-width: 33.33333%;`}
 `;
 const Slink = styled(Link)`
   div {

@@ -23,7 +23,7 @@ const upload = multer({
 
 const boardRoute = express.Router();
 
-boardRoute.get("/:type/:page", async (req, res) => {
+boardRoute.get("/:type/:page", ipConfirm, async (req, res) => {
   const sql = "CALL spt_GetBoard(?,?,?)";
   const type = req.params.type;
   const page = req.params.page - 1;
@@ -43,7 +43,7 @@ boardRoute.get("/:type/:page", async (req, res) => {
           .shift();
         console.log(result);
         con.release();
-        return res.json(result);
+        return res.json({ result, ip: req.body.ip });
       });
     });
   } catch (error) {
@@ -56,8 +56,9 @@ boardRoute.get("/detail/:type/:list", ipConfirm, async (req, res) => {
   const sql = `CALL spt_GetBoardDetail(?, ?);`;
   try {
     if (req.body.ip) {
-      console.log("여기는 오케이", req.body.reqIp);
+      console.log("여기는 오케이", req.ip.reqIp, req.body.ip);
     }
+    const jsonIp = { ip: req.body.ip };
     db.getConnection((err, con) => {
       if (err) {
         con.release();
@@ -72,7 +73,8 @@ boardRoute.get("/detail/:type/:list", ipConfirm, async (req, res) => {
           .filter((row, i) => row.constructor.name !== "OkPacket")
           .shift();
         console.log(result);
-        return res.json(result);
+
+        return res.json({ result, ip: req.body.ip });
       });
     });
   } catch (error) {
@@ -213,6 +215,7 @@ boardRoute.get("/download/file/:list", async (req, res) => {
         const result = rows
           .filter((row, i) => row.constructor.name !== "OkPacket")
           .shift();
+
         // result.map(r =>
         //   fs.readdir(
         //     path.join(__dirname, "../uploads"),
@@ -237,7 +240,7 @@ boardRoute.get("/download/file/:list", async (req, res) => {
 });
 boardRoute.delete("/delete/update/file/:list", async (req, res) => {
   const { list } = req.params;
-  const sql = "CALL spt_RemoveBoardFile(?,@return); SELECT @return as _return ";
+  const sql = "CALL spt_RemoveBoardFile(?,@return); SELECT @return as _return";
   try {
     db.getConnection((err, con) => {
       if (err) {
@@ -257,6 +260,36 @@ boardRoute.delete("/delete/update/file/:list", async (req, res) => {
         return res.status(200).json(result);
       });
     });
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+});
+boardRoute.post("/hit/regist", ipConfirm, async (req, res) => {
+  const sql = `CALL spt_RegistBoardCount(?,?,?,@return); SELECT @return as _return`;
+  console.log(req.body, "hit-regist");
+  const { type, list, ip, reqIp } = req.body;
+  try {
+    if (!ip) {
+      db.getConnection((err, con) => {
+        if (err) {
+          con.release();
+          throw err;
+        }
+        con.query(sql, [type, list, reqIp], (err, rows, fields) => {
+          if (err) {
+            con.release();
+            throw err;
+          }
+          con.release();
+          const result = rows
+            .filter((row, i) => row.constructor.name !== "OkPacket")
+            .shift();
+          return res.status(200).json(result);
+        });
+      });
+    } else {
+      return res.status(200).json({ message: "관리자 접속" });
+    }
   } catch (error) {
     return res.status(500).json({ error: error });
   }

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../Context";
 import { Link } from "react-router-dom";
+import { device } from "../../device";
 
 const Warpper = styled.div`
   width: 100%;
@@ -15,6 +16,7 @@ const Warpper = styled.div`
     font-size: 16px;
     :first-child {
       padding-bottom: 14px;
+      ${device.PC980`margin : 0; padding : 0 0 4px 0;`}
     }
     :last-child {
       border-top: 1px solid #333;
@@ -22,9 +24,11 @@ const Warpper = styled.div`
     }
     span:last-child {
       float: right;
+      ${device.PC980`float : none;`}
     }
     span:first-child {
       float: left;
+      ${device.PC980`float : none;`}
     }
 
     b {

@@ -1,5 +1,5 @@
 import { textFunc } from "./TextChange";
-let about01 = `Building a more secure\nand connected the game world`;
+let about01 = `Building a more secure and \nconnected the game world`;
 let what02 = `Numbers is a leader in providing high-performance\nblockchain game solutions.`;
 let solution05 = `The most powerful infrastructure\nfor decentralized applications`;
 let solution06 = `All of your digital assets\nin one community wallet`;
@@ -16,6 +16,7 @@ export const ko = {
     "contact",
     "investor relations"
   ],
+  subNav: ["공고", "주가현황", "공시정보", "IR자료실"],
   what01: "What we do",
   what02: textFunc(what02),
   what03: "MEET THE TIMELINE",

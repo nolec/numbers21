@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { repeatItem } from "../Styled/css";
+import { device } from "../../device";
 
 const Warpper = styled.div`
   display: flex;
@@ -15,6 +16,7 @@ const LogoBox = styled.div`
   padding-left: 15px;
   flex: 0 0 25%;
   max-width: 25%;
+  ${device.PC1100`flex: 0 0 100%;max-width: 100%;`}
 `;
 const ImgLogo = styled.img.attrs(props => ({
   src: props.theme.file.footerLogo
@@ -23,6 +25,7 @@ const ImgLogo = styled.img.attrs(props => ({
   height: 107px;
   width: auto;
   height: auto;
+  ${device.PC1100`width : 100px; height : 43px;`}
 `;
 const SubBox = styled.div`
   position: relative;
@@ -32,9 +35,11 @@ const SubBox = styled.div`
   padding-left: 15px;
   flex: 0 0 75%;
   max-width: 75%;
+  ${device.PC1100`flex : 0 0 100%; max-width : 100%; margin-top : 40px;`}
 `;
 const SubItemBox = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 const ItemNav = styled.div`
   position: relative;
@@ -48,6 +53,8 @@ const ItemNav = styled.div`
     color: #fff;
     font-size: 22px;
   }
+  ${device.PC1100`text-align: center;`}
+  ${device.PC600`padding-top : 20px; padding-bottom : 20px; flex : 0 0 50%; max-width : 50%;`}
 `;
 const Ul = styled.ul`
   margin: 0;

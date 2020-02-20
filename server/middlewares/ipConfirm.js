@@ -9,12 +9,12 @@ export const ipConfirm = (req, res, next) => {
       reqIp === process.env.LOCAL_SERVER_2 ||
       reqIp === process.env.LOCAL_SERVER_3
     ) {
-      console.log("아이피 맞음");
-      req.body = { ip: true, reqIp: reqIp };
+      console.log("관리자 맞음");
+      req.body = Object.assign(req.body, { ip: true, reqIp: reqIp });
       next();
     } else {
-      console.log("아이피 틀림");
-      req.body = { ip: true, reqIp: reqIp };
+      console.log("관리자 아님");
+      req.body = Object.assign(req.body, { ip: true, reqIp: reqIp });
       next();
     }
   } catch (error) {

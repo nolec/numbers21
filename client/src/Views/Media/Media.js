@@ -5,11 +5,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { mediaMedia } from "../../Actions/media";
 import PressMedia from "../../Components/PressMedia";
+import { device } from "../../device";
 
 const Section = styled.section`
   ${props => props.theme.styles.SectionStyle};
   padding: 0 0 120px;
   margin-top: 100px;
+  ${device.PC767`    padding: 0 0 60px 0;
+    margin-top: 60px;`}
 `;
 const Container = styled.div`
   ${props => props.theme.styles.ContainerStyle};
@@ -24,6 +27,7 @@ const HBox = styled.div`
   border-bottom: 1px #cacaca dotted;
   padding-bottom: 20px;
   margin-bottom: 80px;
+  ${device.PC768`margin-bottom: 20px;font-size : 28px;`}
 `;
 const SeeMore = styled.div`
   width: 100%;

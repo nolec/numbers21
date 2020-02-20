@@ -6,7 +6,8 @@ import {
   BOARD_UPDATE_SUCCESS,
   BOARD_DELETE_SUCCESS,
   BOARD_FILE_UPLOAD,
-  BOARD_DOWNLOAD_FILE
+  BOARD_DOWNLOAD_FILE,
+  BOARD_HIT_REGIST
 } from "../Actions/type";
 
 const initialState = {
@@ -20,12 +21,18 @@ export default (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case BOARD_LOAD:
-      return { ...state, board: payload, loading: false };
+      return {
+        ...state,
+        board: payload.result,
+        loading: false,
+        ip: payload.ip
+      };
     case BOARD_DETAIL_LOAD:
       return {
         ...state,
-        detail: payload.shift(),
-        loading: false
+        detail: payload.result.shift(),
+        loading: false,
+        ip: payload.ip
       };
     case BOARD_WRITE_SUCCESS:
     case BOARD_UPDATE_SUCCESS:
@@ -49,6 +56,8 @@ export default (state = initialState, action) => {
         files: payload,
         loading: false
       };
+    case BOARD_HIT_REGIST:
+      return { ...state, return: payload.shift()._return };
     case BOARD_FAIL:
       return { ...state, error: payload, loading: false };
 

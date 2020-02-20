@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { LangContext } from "../../../Context";
 import Download from "../Download";
+import { device } from "../../../device";
 
 const TableBox = styled.div``;
 const Table = styled.table`
@@ -26,18 +27,26 @@ const Table = styled.table`
       padding-left: 30px;
       padding-bottom: 20px;
       font-weight: bold;
+      ${device.PC990`font-size : 16px;padding-left: 20px;`}
+      ${device.PC600`font-size : 14px;padding-left: 10px;`}
     }
     th:nth-child(1) {
       width: 80px;
       text-align: center;
       padding-left: 0;
+      ${device.PC990`width : 60px;`}
+      ${device.PC600`width : 50px;`}
     }
     th:nth-child(3) {
       width: 160px;
+      ${device.PC990`width : 120px;`}
+      ${device.PC600`width : 100px;`}
     }
     th:nth-child(4) {
       width: 160px;
       padding-left: 30px;
+      ${device.PC990`width : 120px;`}
+      ${device.PC600`width : 100px;`}
     }
   }
   tbody {
@@ -47,8 +56,12 @@ const Table = styled.table`
       line-height: 1.5;
       font-weight: unset;
       border-bottom: 1px solid #d3d3d3;
+      ${device.PC990`font-size: 15px;`}
+      ${device.PC600`font-size: 13px;`}
       td {
         padding: 20px 0 20px 30px;
+        ${device.PC990`padding-left : 20px;`}
+        ${device.PC600`padding-left : 10px;`}
         &:last-child {
           display: flex;
           a {
@@ -62,6 +75,8 @@ const Table = styled.table`
         > * {
           padding: 0 5px;
           font-size: 18px;
+          ${device.PC990`font-size: 15px;`}
+          ${device.PC600`font-size: 13px;`}
         }
       }
     }
@@ -131,9 +146,10 @@ export default ({ type }) => {
   const dispatch = useDispatch();
   const [table, setTable] = useState(true);
   const { lang } = useContext(LangContext);
-  const { board, loading } = useSelector(state => ({
+  const { board, loading, ip } = useSelector(state => ({
     board: state.board.board,
-    loading: state.board.loading
+    loading: state.board.loading,
+    ip: state.board.ip
   }));
 
   const [page, setPage] = useState(1);
@@ -165,7 +181,7 @@ export default ({ type }) => {
                   <DetailLink to={`/investor/detail/${type}/${item.idx}`}>
                     {item.title}
                   </DetailLink>
-                  <Hit>{item.read_count}</Hit>
+                  {ip ? <Hit>{item.read_count}</Hit> : null}
                 </td>
                 <td>{item.regDate}</td>
                 <td>
@@ -197,7 +213,9 @@ export default ({ type }) => {
         </Table>
       </TableBox>
       <SignUp>
-        <SignLink to="/investor/write">{lang.investor05}</SignLink>
+        {ip ? (
+          <SignLink to="/investor/write">{lang.investor05}</SignLink>
+        ) : null}
       </SignUp>
       <Paging>
         <Nav>

@@ -1,19 +1,26 @@
 import React from "react";
 import styled from "styled-components";
+import { minDevice, device } from "../device";
 
 const Articles = styled.div`
   display: flex;
   flex-wrap: wrap;
   ${props => `margin-top : ${props.itemLength === 4 ? "0;" : "80px;"}`}
+  ${device.PC1300`margin-top : 20px;`}
 `;
 const Item = styled.div`
   position: relative;
   margin-top: 40px;
   text-align: center;
-  flex: 0 0 25%;
-  max-width: 25%;
+  max-width : 100%;
+  flex : 0 0 100%;
   padding-right: 15px;
   padding-left: 15px;
+  ${device.PC575`max-width : none;`}
+  ${minDevice.minPC576`flex : 0 0 50%; max-width : 50%;`}
+  ${minDevice.minPC768`flex : 0 0 50%; max-width : 50%;`}
+  ${minDevice.minPC992`flex: 0 0 33.3333%; max-width : 33.3333%;`}
+  ${minDevice.minPC`flex: 0 0 25%;`}
   * {
     transition: 0.3s ease-in-out;
   }
@@ -41,6 +48,9 @@ const Item = styled.div`
         width: 100%;
         max-height: 160px;
         vertical-align: middle;
+        ${device.PC1199`height : 16vw; max-height : none;`}
+        ${device.PC991`height : 25vw;`}
+        ${device.PC575`max-width : none;height : 50vw;`}
       }
     }
     p {

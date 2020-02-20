@@ -22,6 +22,7 @@ import Versatile from "../../assets/images/careers/Icon_Versatile.png";
 import Creative from "../../assets/images/careers/Icon_Creative.png";
 import contactBg from "../../assets/images/Bg_Contact.jpg";
 import save from "../../assets/images/icon/save-24px.svg";
+import { minDevice } from "../../device";
 
 const SectionStyle = () => css`
   padding: 80px 0px 120px;

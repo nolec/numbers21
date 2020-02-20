@@ -7,6 +7,8 @@ const Section = styled.section`
   ${props => props.theme.styles.SectionStyle};
   padding: 0 0 120px;
   margin-top: 100px;
+  ${device.PC767`    padding: 0 0 60px 0;
+    margin-top: 60px;`}
 `;
 const Container = styled.div`
   ${props => props.theme.styles.ContainerStyle};
@@ -22,7 +24,9 @@ const Title = styled.div`
   h2 {
     font-size: 40px;
     color: #000;
+    ${device.PC768`font-size : 28px;`}
   }
+  ${device.PC768`margin-bottom: 20px;`}
 `;
 const TimeList = styled.div`
   margin-bottom: -1.5em;
@@ -190,11 +194,11 @@ export default () => {
         </Title>
         <TimeList>
           <Timeline>
-            <li class="year-p">
-              <div class="timeline-panel left year">
+            <li className="year-p">
+              <div className="timeline-panel left year">
                 <h3>19</h3>
               </div>
-              <div class="timeline-panel right blank">&nbsp;</div>
+              <div className="timeline-panel right blank">&nbsp;</div>
             </li>
           </Timeline>
         </TimeList>
@@ -225,11 +229,11 @@ export default () => {
         </TimeList>
         <TimeList>
           <Timeline>
-            <li class="year-p">
-              <div class="timeline-panel left year">
+            <li className="year-p">
+              <div className="timeline-panel left year">
                 <h3>18</h3>
               </div>
-              <div class="timeline-panel right blank">&nbsp;</div>
+              <div className="timeline-panel right blank">&nbsp;</div>
             </li>
           </Timeline>
         </TimeList>
@@ -262,7 +266,7 @@ export default () => {
         <TimeList>
           <Timeline>
             <li className="year-p">
-              <div className="timeline-panel left"></div>
+              <div className="timeline-panel left blank"></div>
               <div className="timeline-image small"></div>
               <div className="timeline-panel right">
                 <h4>{lang.timeline12}</h4>
@@ -282,14 +286,14 @@ export default () => {
                 <p>{lang.timeline18}</p>
               </div>
               <div className="timeline-image small"></div>
-              <div className="timeline-panel right"></div>
+              <div className="timeline-panel right blank"></div>
             </li>
           </Timeline>
         </TimeList>
         <TimeList>
           <Timeline>
             <li className="year-p">
-              <div className="timeline-panel left"></div>
+              <div className="timeline-panel left blank"></div>
               <div className="timeline-image small"></div>
               <div className="timeline-panel right">
                 <h4>{lang.timeline19}</h4>
@@ -301,18 +305,18 @@ export default () => {
         </TimeList>
         <TimeList>
           <Timeline>
-            <li class="year-p">
-              <div class="timeline-panel left year">
+            <li className="year-p">
+              <div className="timeline-panel left year">
                 <h3>17</h3>
               </div>
-              <div class="timeline-panel right blank">&nbsp;</div>
+              <div className="timeline-panel right blank">&nbsp;</div>
             </li>
           </Timeline>
         </TimeList>
         <TimeList>
           <Timeline>
             <li className="year-p">
-              <div className="timeline-panel left"></div>
+              <div className="timeline-panel left blank"></div>
               <div className="timeline-image"></div>
               <div className="timeline-panel right">
                 <h4>{lang.timeline22}</h4>
@@ -330,24 +334,24 @@ export default () => {
                 <p className="sub-txt">{lang.timeline26}</p>
               </div>
               <div className="timeline-image small"></div>
-              <div className="timeline-panel right"></div>
-            </li>
-          </Timeline>
-        </TimeList>
-        <TimeList>
-          <Timeline>
-            <li class="year-p">
-              <div class="timeline-panel left year">
-                <h3>16</h3>
-              </div>
-              <div class="timeline-panel right blank">&nbsp;</div>
+              <div className="timeline-panel right blank"></div>
             </li>
           </Timeline>
         </TimeList>
         <TimeList>
           <Timeline>
             <li className="year-p">
-              <div className="timeline-panel left"></div>
+              <div className="timeline-panel left year">
+                <h3>16</h3>
+              </div>
+              <div className="timeline-panel right blank">&nbsp;</div>
+            </li>
+          </Timeline>
+        </TimeList>
+        <TimeList>
+          <Timeline>
+            <li className="year-p">
+              <div className="timeline-panel left blank"></div>
               <div className="timeline-image"></div>
               <div className="timeline-panel right">
                 <h4>{lang.timeline27}</h4>

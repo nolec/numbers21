@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { device } from "../device";
 const ContentBox = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 const Content = styled.div`
   padding-right: 15px;
@@ -13,6 +15,7 @@ const Content = styled.div`
   h4,p {
     ${props => (props.count === 4 ? "color : #fff;" : "color : #000;")}
   }
+  ${device.PC575`max-width : 100%;flex : 0 0 100%;`}
 `;
 const Div = styled.div`
   h4 {

@@ -5,12 +5,15 @@ import Table from "./Table";
 import Detail from "./Detail";
 import Write from "./Write";
 import Update from "./Update/Update";
+import { device } from "../../device";
 
 const Section = styled.section`
   ${props => props.theme.styles.SectionStyle};
   padding: 0 0 120px;
   margin-top: 100px;
   position: relative;
+  ${device.PC767`    padding: 0 0 60px 0;
+    margin-top: 60px;`}
 `;
 const Container = styled.div`
   ${props => props.theme.styles.ContainerStyle};
@@ -26,11 +29,13 @@ const HBox = styled.div`
   border-bottom: 1px #cacaca dotted;
   padding-bottom: 20px;
   margin-bottom: 80px;
+  ${device.PC768`margin-bottom: 20px;font-size : 28px;`}
 `;
 const SubMenu = styled.div`
   position: absolute;
   top: 70px;
   right: 0;
+  ${device.PC990`display : none;`}
 `;
 const Ul = styled.ul`
   display: flex;
@@ -55,6 +60,7 @@ const PageName = styled.div`
   padding: 40px 0;
   margin: 0 auto 50px;
   border: 1px solid #d3d3d3;
+  ${device.PC767`padding : 20px 0; margin : 0 auto 30px; font-size : 26px;`}
 `;
 
 export default ({ location, match, history }) => {
@@ -84,7 +90,8 @@ export default ({ location, match, history }) => {
           <h2>Investor Relations</h2>
         </HBox>
         {location.pathname.includes("detail") ||
-        location.pathname.includes("write") ? null : (
+        location.pathname.includes("write") ||
+        location.pathname.includes("update") ? null : (
           <SubMenu>
             <Ul>
               <Li onClick={() => typeHandle(1)}>

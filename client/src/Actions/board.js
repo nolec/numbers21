@@ -7,7 +7,8 @@ import {
   BOARD_DELETE_SUCCESS,
   BOARD_FILE_UPLOAD,
   BOARD_DOWNLOAD_FILE,
-  BOARD_FILE_DELETE
+  BOARD_FILE_DELETE,
+  BOARD_HIT_REGIST
 } from "./type";
 import axios from "axios";
 
@@ -144,6 +145,14 @@ export const downloadFile = list => async dispatch => {
     const res2 = await axios.get(`/api/board/download/file/${list}`);
     console.log(fileReader, res.data, res2.data);
     dispatch({ type: BOARD_DOWNLOAD_FILE, payload: res2.data });
+  } catch (error) {
+    dispatch({ type: BOARD_FAIL, payload: error });
+  }
+};
+export const registHit = formData => async dispatch => {
+  try {
+    const res = await axios.post(`/api/board/hit/regist`, formData);
+    dispatch({ type: BOARD_HIT_REGIST, payload: res.data });
   } catch (error) {
     dispatch({ type: BOARD_FAIL, payload: error });
   }

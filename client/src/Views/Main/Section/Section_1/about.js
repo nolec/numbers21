@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../../../Context";
+import { device } from "../../../../device";
 
 const Section = styled.section`
   ${props => props.theme.styles.SectionStyle};
@@ -8,6 +9,7 @@ const Section = styled.section`
   height: 660px;
   position: relative;
   overflow: hidden;
+  ${device.PC520`height: 480px;`}
 `;
 const BG = styled.div`
   position: absolute;
@@ -35,7 +37,11 @@ const MainHeader = styled.div`
     font-size: 22px;
   }
 `;
-const MainTitle = styled.div``;
+const MainTitle = styled.div`
+  h1 br {
+    ${device.PC520`display : none`}
+  }
+`;
 
 export default () => {
   const { lang } = useContext(LangContext);
