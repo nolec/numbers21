@@ -46,7 +46,7 @@ const MainTitle = styled.div`
 export default () => {
   const { lang } = useContext(LangContext);
   return (
-    <Section>
+    <Section id="about">
       <BG></BG>
       <Container>
         <MainHeader>

@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../Context";
 import { minDevice, device } from "../../device";
+import { withRouter } from "react-router-dom";
 
 const Section = styled.section`
   ${props => props.theme.styles.SectionStyle};
@@ -184,8 +185,40 @@ const Timeline = styled.ul`
   }
 `;
 
-export default () => {
+export default withRouter(({ location }) => {
   const { lang } = useContext(LangContext);
+  const nine = useRef(null);
+  const eight = useRef(null);
+  const seven = useRef(null);
+  const sixth = useRef(null);
+  useEffect(() => {
+    console.log(nine);
+    if (location.hash === "") window.scrollTo(0, 0);
+    if (location.hash === "#2019")
+      window.scrollTo({
+        top: nine.current.offsetTop - 50,
+        left: 0,
+        behavior: "smooth"
+      });
+    if (location.hash === "#2018")
+      window.scrollTo({
+        top: eight.current.offsetTop - 50,
+        left: 0,
+        behavior: "smooth"
+      });
+    if (location.hash === "#2017")
+      window.scrollTo({
+        top: seven.current.offsetTop - 50,
+        left: 0,
+        behavior: "smooth"
+      });
+    if (location.hash === "#2016")
+      window.scrollTo({
+        top: sixth.current.offsetTop - 50,
+        left: 0,
+        behavior: "smooth"
+      });
+  }, []);
   return (
     <Section>
       <Container>
@@ -193,7 +226,7 @@ export default () => {
           <h2>{lang.timeline00}</h2>
         </Title>
         <TimeList>
-          <Timeline>
+          <Timeline ref={nine}>
             <li className="year-p">
               <div className="timeline-panel left year">
                 <h3>19</h3>
@@ -228,7 +261,7 @@ export default () => {
           </Timeline>
         </TimeList>
         <TimeList>
-          <Timeline>
+          <Timeline ref={eight}>
             <li className="year-p">
               <div className="timeline-panel left year">
                 <h3>18</h3>
@@ -304,7 +337,7 @@ export default () => {
           </Timeline>
         </TimeList>
         <TimeList>
-          <Timeline>
+          <Timeline ref={seven}>
             <li className="year-p">
               <div className="timeline-panel left year">
                 <h3>17</h3>
@@ -339,7 +372,7 @@ export default () => {
           </Timeline>
         </TimeList>
         <TimeList>
-          <Timeline>
+          <Timeline ref={sixth}>
             <li className="year-p">
               <div className="timeline-panel left year">
                 <h3>16</h3>
@@ -363,4 +396,4 @@ export default () => {
       </Container>
     </Section>
   );
-};
+});

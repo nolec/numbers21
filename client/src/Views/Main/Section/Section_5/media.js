@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../../../Context";
 import PressMedia from "../../../../Components/PressMedia";
@@ -35,17 +35,23 @@ const SeeMore = styled.div`
 const SLink = styled(Link)`
   ${props => props.theme.styles.SlinkStyle};
 `;
-export default () => {
+export default ({ location }) => {
   const { lang } = useContext(LangContext);
   const dispatch = useDispatch();
+  const med = useRef(null);
   const { media } = useSelector(state => ({
     media: state.media.media
   }));
   useEffect(() => {
     dispatch(mainMedia());
   }, [dispatch]);
+  useEffect(() => {
+    if (location.hash === "#media") {
+      med.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
   return (
-    <Section>
+    <Section ref={med}>
       <Container>
         <Title>
           <h2>{lang.media01}</h2>

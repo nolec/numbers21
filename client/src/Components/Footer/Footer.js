@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Top from "./Top";
 import Bottom from "./Bottom";
 import { device } from "../../device";
+import { withRouter } from "react-router-dom";
 
 const Footer = styled.footer`
   background: #000;
@@ -14,13 +15,13 @@ const Footer = styled.footer`
 const Container = styled.div`
   ${props => props.theme.styles.ContainerStyle};
 `;
-export default () => {
+export default withRouter(({ location }) => {
   return (
     <Footer>
       <Container>
-        <Top />
-        <Bottom />
+        <Top pathname={location.pathname} />
+        <Bottom pathname={location.pathname} />
       </Container>
     </Footer>
   );
-};
+});

@@ -10,7 +10,10 @@ const Warpper = styled.div`
   display: block;
   color: #a6a6a6;
   font-size: 16px;
-  padding: 70px 0 10px;
+  ${props =>
+    props.pathname === "/sitemap"
+      ? "padding : 0 0 10px;"
+      : "padding : 70px 0 10px;"}
   p {
     padding: 0;
     font-size: 16px;
@@ -46,10 +49,11 @@ const Site = styled(Link)`
     color: #fff;
   }
 `;
-export default () => {
+export default ({ pathname }) => {
   const { lang } = useContext(LangContext);
+  console.log(pathname);
   return (
-    <Warpper>
+    <Warpper pathname={pathname}>
       <p>
         <span>
           <b>{lang.footer06}</b>

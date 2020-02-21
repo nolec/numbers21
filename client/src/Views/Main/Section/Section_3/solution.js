@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../../../Context";
 import { Link } from "react-router-dom";
@@ -76,10 +76,16 @@ const More = styled(Link)`
     color: #000;
   }
 `;
-export default () => {
+export default ({ location }) => {
   const { lang } = useContext(LangContext);
+  const sol = useRef(null);
+  useEffect(() => {
+    if (location.hash === "#solutions") {
+      sol.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
   return (
-    <Section>
+    <Section ref={sol}>
       <Container>
         <Title>
           <h2>{lang.solution01}</h2>

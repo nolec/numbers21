@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../../../Context";
 import { Link } from "react-router-dom";
@@ -60,10 +60,16 @@ const PhotoBox = styled.div`
   ${device.PC767`flex-basis : 100%;order: 1;margin-left: 0;`}
 `;
 const Photo = styled.img.attrs(props => ({ src: props.theme.file.photo }))``;
-export default () => {
+export default ({ location }) => {
   const { lang } = useContext(LangContext);
+  const what = useRef(null);
+  useEffect(() => {
+    if (location.hash === "#what") {
+      what.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
   return (
-    <Section>
+    <Section ref={what}>
       <Container>
         <ContentBox>
           <Desc>

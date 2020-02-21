@@ -59,6 +59,9 @@ export default () => {
   useEffect(() => {
     dispatch(mediaMedia(currentPage));
   }, [currentPage, dispatch]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Section>
       <Container>

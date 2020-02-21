@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../../../Context";
 import Content from "../../../../Components/Content";
@@ -19,10 +19,19 @@ const Title = styled.div`
   }
 `;
 
-export default () => {
+export default ({ location }) => {
   const { lang } = useContext(LangContext);
+  const cul = useRef(null);
+  useEffect(() => {
+    if (location.hash === "#culture")
+      window.scrollTo({
+        top: cul.current.offsetTop,
+        left: 0,
+        behavior: "smooth"
+      });
+  }, []);
   return (
-    <Section>
+    <Section ref={cul}>
       <Container>
         <Title>
           <h3>{lang.culture01}</h3>

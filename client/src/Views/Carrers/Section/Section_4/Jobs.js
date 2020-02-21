@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { LangContext } from "../../../../Context";
 
@@ -25,10 +25,19 @@ const Content = styled.div`
     font-size: 1.5rem;
   }
 `;
-export default () => {
+export default ({ location }) => {
   const { lang } = useContext(LangContext);
+  const job = useRef(null);
+  useEffect(() => {
+    if (location.hash === "#job")
+      window.scrollTo({
+        top: job.current.offsetTop,
+        left: 0,
+        behavior: "smooth"
+      });
+  }, []);
   return (
-    <Section>
+    <Section ref={job}>
       <Container>
         <Title>
           <h3>{lang.culture24}</h3>

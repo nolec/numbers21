@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import styled from "styled-components";
 // import { isEmail, isValidation } from "./Auth";
 import { Formik, Form } from "formik";
@@ -203,6 +203,9 @@ export default () => {
   };
   //--------------------------------------------
   const { lang } = useContext(LangContext);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Section>
       <Container>

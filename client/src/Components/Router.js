@@ -15,6 +15,7 @@ import Contact from "../Views/Contact";
 import Investor from "../Views/Investor";
 import Footer from "./Footer";
 import { LangContext } from "../Context";
+import SiteMap from "../Views/SiteMap/SiteMap";
 
 export default () => {
   const { languageSetting, korean } = useContext(LangContext);
@@ -37,6 +38,8 @@ export default () => {
           <Redirect from="/careers*" to="/careers" />
           <Route path="/contact" exact component={Contact} />
           <Redirect from="/contact*" to="/contact" />
+          <Route path="/sitemap" component={SiteMap} />
+          <Redirect from="/sitemap*" to="/sitemap" />
           <Route path="/investor" exact component={Investor} />
           <Route
             path="/investor/detail/:type/:list"
@@ -49,7 +52,6 @@ export default () => {
             exact
             component={Investor}
           />
-
           <Redirect from="*" to="/" />
         </Switch>
         <Footer />

@@ -190,5 +190,54 @@ export const ko = {
   investor03: "공시정보",
   investor04: "IR자료실",
   investor05: "공지 등록",
-  detail01: "목록보기"
+  detail01: "목록보기",
+  sitemap: [
+    {
+      site: "Numbers",
+      name: [
+        ["#about", "About"],
+        ["#what", "What we do"],
+        ["#solutions", "Solutions"],
+        ["#press", "Press"],
+        ["#media", "Media"]
+      ]
+    },
+    {
+      site: "TIMELINE",
+      name: [
+        ["timeline/#2019", "2019"],
+        ["timeline/#2018", "2018"],
+        ["timeline/#2017", "2017"],
+        ["timeline/#2016", "2016"]
+      ]
+    },
+    {
+      site: "Careers",
+      name: [
+        ["careers/#culture", "Culture"],
+        ["careers/#benefits", "Benefits"],
+        ["careers/#values", "Values"],
+        ["careers/#job", "Job Opening"]
+      ]
+    },
+    {
+      site: "Contact",
+      name: [
+        ["c", "Inquiries"],
+        ["b", "Partnership"],
+        ["d", "Developers"]
+      ]
+    },
+    { site: "Press", name: [["press", "Poster"]] },
+    { site: "Media", name: [["media", "Articles"]] },
+    {
+      site: "IR",
+      name: [
+        [1, "공고"],
+        [2, "주가현황"],
+        [3, "공시정보"],
+        [4, "IR자료실"]
+      ]
+    }
+  ]
 };

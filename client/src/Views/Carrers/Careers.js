@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import SectionOne from "./Section/Section_1";
 import SectionTwo from "./Section/Section_2";
 import SectionThree from "./Section/Section_3";
 import SectionFour from "./Section/Section_4";
+import { withRouter } from "react-router-dom";
 
 const Background = styled.div`
   ${props =>
@@ -18,15 +19,18 @@ const Background = styled.div`
   min-height: 300px;
 `;
 
-export default () => {
+export default withRouter(({ location }) => {
+  useEffect(() => {
+    if (location.hash === "") window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Background one={true} />
-      <SectionOne />
-      <SectionTwo />
+      <SectionOne location={location} />
+      <SectionTwo location={location} />
       <Background />
-      <SectionThree />
-      <SectionFour />
+      <SectionThree location={location} />
+      <SectionFour location={location} />
     </>
   );
-};
+});

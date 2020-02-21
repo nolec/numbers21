@@ -6,8 +6,9 @@ import SectionFour from "./Section/Section_4";
 import SectionFive from "./Section/Section_5";
 import { useSelector } from "react-redux";
 import Loading from "../../Components/Loading";
+import { withRouter } from "react-router-dom";
 
-export default () => {
+export default withRouter(({ location }) => {
   const { loading } = useSelector(state => ({ loading: state.press.loading }));
   const [load, setLoad] = useState(null);
   useEffect(() => {
@@ -16,17 +17,18 @@ export default () => {
     } else {
       setLoad(true);
     }
+    if (location.hash === "") window.scrollTo(0, 0);
   }, [loading]);
   if (load) {
     return <Loading />;
   }
   return (
     <>
-      <SectionOne />
-      <SectionTwo />
-      <SectionThree />
-      <SectionFour />
-      <SectionFive />
+      <SectionOne location={location} />
+      <SectionTwo location={location} />
+      <SectionThree location={location} />
+      <SectionFour location={location} />
+      <SectionFive location={location} />
     </>
   );
-};
+});

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { repeatItem } from "../Styled/css";
 import { device } from "../../device";
 
@@ -68,36 +68,40 @@ const Li = styled.li`
   }
 `;
 const Alink = styled(Link)``;
-export default () => {
+export default ({ pathname }) => {
   return (
-    <Warpper>
-      <LogoBox>
-        <ImgLogo />
-      </LogoBox>
-      <SubBox>
-        <SubItemBox>
-          {repeatItem.map((item, index) => (
-            <ItemNav key={index}>
-              <h4>{item.h4}</h4>
-              <Ul>
-                {item.sub.map((list, i) => (
-                  <Li key={i}>
-                    {list[2] === "" ? (
-                      <Alink to={list[0]} target={list[2]}>
-                        {list[1]}
-                      </Alink>
-                    ) : (
-                      <a href={list[0]} target={list[2]}>
-                        {list[1]}
-                      </a>
-                    )}
-                  </Li>
-                ))}
-              </Ul>
-            </ItemNav>
-          ))}
-        </SubItemBox>
-      </SubBox>
-    </Warpper>
+    <>
+      {pathname === "/sitemap" ? null : (
+        <Warpper>
+          <LogoBox>
+            <ImgLogo />
+          </LogoBox>
+          <SubBox>
+            <SubItemBox>
+              {repeatItem.map((item, index) => (
+                <ItemNav key={index}>
+                  <h4>{item.h4}</h4>
+                  <Ul>
+                    {item.sub.map((list, i) => (
+                      <Li key={i}>
+                        {list[2] === "" ? (
+                          <Alink to={list[0]} target={list[2]}>
+                            {list[1]}
+                          </Alink>
+                        ) : (
+                          <a href={list[0]} target={list[2]}>
+                            {list[1]}
+                          </a>
+                        )}
+                      </Li>
+                    ))}
+                  </Ul>
+                </ItemNav>
+              ))}
+            </SubItemBox>
+          </SubBox>
+        </Warpper>
+      )}
+    </>
   );
 };
