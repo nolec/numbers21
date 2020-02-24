@@ -77,7 +77,7 @@ const Back = styled(Link)`
 const Btn = styled(Back.withComponent("button"))``;
 export default ({ write, update }) => {
   const dispatch = useDispatch();
-  const { detail, loading, files } = useSelector(state => ({
+  const { detail, files } = useSelector(state => ({
     detail: state.board.detail,
     loading: state.board.loading,
     files: state.board.files
@@ -186,7 +186,7 @@ export default ({ write, update }) => {
               ["view", ["fullscreen", "codeview"]]
             ]
           }}
-          onChange={e => onChange(e)}
+          onChange={onChange}
           onImageUpload={onImageUpload}
         />
       </Content>

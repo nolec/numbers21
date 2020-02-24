@@ -1,5 +1,5 @@
-import "summernote/dist/summernote";
-import "summernote/dist/summernote.css";
+import "react-summernote/dist/react-summernote";
+import "react-summernote/dist/react-summernote.css";
 import "codemirror/lib/codemirror.css";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
