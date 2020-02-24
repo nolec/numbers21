@@ -36,17 +36,17 @@ export default () => {
           <Redirect from="/media*" to="/media" />
           <Route path="/careers" exact component={Careers} />
           <Redirect from="/careers*" to="/careers" />
-          <Route path="/contact" exact component={Contact} />
+          <Route path="/contact/:id" exact component={Contact} />
           <Redirect from="/contact*" to="/contact" />
           <Route path="/sitemap" component={SiteMap} />
           <Redirect from="/sitemap*" to="/sitemap" />
-          <Route path="/investor" exact component={Investor} />
+          <Route path="/investor/:type" exact component={Investor} />
           <Route
             path="/investor/detail/:type/:list"
             exact
             component={Investor}
           />
-          <Route path="/investor/write" exact component={Investor} />
+          <Route path="/investor/write/:type" exact component={Investor} />
           <Route
             path="/investor/update/:type/:list"
             exact

@@ -65,12 +65,13 @@ const PageName = styled.div`
 
 export default ({ location, match, history }) => {
   const { lang } = useContext(LangContext);
-  const [type, setType] = useState(1);
+  const { pathname } = location;
+  const type = parseInt(pathname.split("/")[pathname.split("/").length - 1]);
+  console.log(type);
   const typeHandle = num => {
     if (num !== 1) {
       return alert("준비중입니다.");
     }
-    setType(num);
   };
   const component = () => {
     if (location.pathname.includes("detail")) {
@@ -80,7 +81,7 @@ export default ({ location, match, history }) => {
     } else if (location.pathname.includes("update")) {
       return <Update match={match} history={history} />;
     } else {
-      return <Table type={type} />;
+      return <Table type={type} history={history} />;
     }
   };
   return (
@@ -94,7 +95,7 @@ export default ({ location, match, history }) => {
         location.pathname.includes("update") ? null : (
           <SubMenu>
             <Ul>
-              <Li onClick={() => typeHandle(1)}>
+              <Li onClick={() => typeHandle(type)}>
                 <SubLink>{lang.investor01}</SubLink>
               </Li>
               <Li onClick={() => typeHandle(2)}>

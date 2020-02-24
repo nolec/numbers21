@@ -14,8 +14,9 @@ import axios from "axios";
 
 export const getBoard = formData => async dispatch => {
   const { type, page } = formData;
+  console.log(type, page);
   try {
-    const res = await axios.get(`api/board/${type}/${page}`);
+    const res = await axios.get(`/api/board/${type}/${page}`);
     dispatch({ type: BOARD_LOAD, payload: res.data });
   } catch (error) {
     dispatch({ type: BOARD_FAIL, payload: error });
@@ -40,7 +41,7 @@ export const writeBoard = (formData, history, writeFile) => async dispatch => {
       alert("등록 완료");
       await dispatch(uploadFile(writeFile, res.data.last_insert_id));
       await dispatch({ type: BOARD_WRITE_SUCCESS, payload: res.data });
-      return history.push("/investor");
+      return history.push(`/investor/${formData.type}`);
     } else {
       alert("등록 실패");
       return Error("Error");
@@ -60,7 +61,7 @@ export const updateBoard = (
       alert("수정 완료");
       await dispatch(uploadFile(updateFile, formData.list));
       await dispatch({ type: BOARD_UPDATE_SUCCESS, payload: res.data });
-      return history.push("/investor");
+      return history.push(`/investor/${formData.type}`);
     } else {
       alert("수정 실패");
       return Error("Error");
@@ -75,7 +76,7 @@ export const deletBoard = (type, list, history) => async dispatch => {
     if (res.data.success) {
       alert("삭제 완료");
       dispatch({ type: BOARD_DELETE_SUCCESS, payload: res.data });
-      return history.push("/investor");
+      return history.push(`/investor/${type}`);
     } else {
       alert("삭제 실패");
       return Error("Error");

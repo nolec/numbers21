@@ -193,7 +193,7 @@ export default ({ match, history }) => {
             </>
           ) : null}
         </BtnBox>
-        <Back to="/investor">{lang.detail01}</Back>
+        <Back to={`/investor/${formData.type}`}>{lang.detail01}</Back>
       </Footer>
     </ContentBox>
   );

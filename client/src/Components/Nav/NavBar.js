@@ -63,8 +63,18 @@ export default ({ history }) => {
             lang.nav.length > 0 &&
             lang.nav.map((navbar, index) => (
               <Li key={index}>
-                <Item to={`/${navbar.split(" ")[0]}`}>
-                  <span>{navbar}</span>
+                <Item
+                  to={`/${
+                    navbar.split(" ").length > 1
+                      ? navbar.split(" ")[0] + `/${1}`
+                      : navbar.split(" ")[0]
+                  }`}
+                >
+                  <span>
+                    {navbar.split(" ")[1] === "1"
+                      ? navbar.split(" ")[0]
+                      : navbar}
+                  </span>
                 </Item>
               </Li>
             ))}

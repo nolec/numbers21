@@ -13,7 +13,7 @@ export const ko = {
     "press",
     "media",
     "careers",
-    "contact",
+    "contact 1",
     "investor relations"
   ],
   subNav: ["공고", "주가현황", "공시정보", "IR자료실"],
@@ -51,21 +51,21 @@ export const ko = {
   footer03: {
     contact: "Contact",
     sub: [
-      ["contact", "Inquiries", ""],
-      ["contact", "Partnership", ""]
+      [`/contact/${1}`, "Inquiries", ""],
+      [`/contact/${2}`, "Partnership", ""]
     ]
   },
   footer04: {
     support: "Support",
-    sub: [["contact", "Developers"]]
+    sub: [[`/contact/${3}`, "Developers"]]
   },
   footer05: {
     ir: "IR",
     sub: [
-      ["investor", "공고", ""],
-      ["/", "주가현황", ""],
-      ["/", "공시정보", ""],
-      ["/", "IR자료실", ""]
+      [`/investor/${1}`, "공고", ""],
+      [`/investor/${2}`, "주가현황", ""],
+      [`/investor/${3}`, "공시정보", ""],
+      [`/investor/${4}`, "IR자료실", ""]
     ]
   },
   footer06: "Head office",
@@ -223,9 +223,9 @@ export const ko = {
     {
       site: "Contact",
       name: [
-        ["c", "Inquiries"],
-        ["b", "Partnership"],
-        ["d", "Developers"]
+        [`contact/${1}`, "Inquiries"],
+        [`contact/${2}`, "Partnership"],
+        [`contact/${3}`, "Developers"]
       ]
     },
     { site: "Press", name: [["press", "Poster"]] },
@@ -233,10 +233,10 @@ export const ko = {
     {
       site: "IR",
       name: [
-        [1, "공고"],
-        [2, "주가현황"],
-        [3, "공시정보"],
-        [4, "IR자료실"]
+        [`investor/${1}`, "공고"],
+        [`investor/${2}`, "주가현황"],
+        [`investor/${3}`, "공시정보"],
+        [`investor/${4}`, "IR자료실"]
       ]
     }
   ]

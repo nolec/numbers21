@@ -25,7 +25,7 @@ const boardRoute = express.Router();
 
 boardRoute.get("/:type/:page", ipConfirm, async (req, res) => {
   const sql = "CALL spt_GetBoard(?,?,?)";
-  const type = req.params.type;
+  const type = req.params.type.toString();
   const page = req.params.page - 1;
   try {
     db.getConnection((err, con) => {

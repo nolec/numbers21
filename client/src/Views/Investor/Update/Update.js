@@ -25,7 +25,7 @@ export default ({ match, history }) => {
   }
   return (
     <Update>
-      <Summer update={update} />
+      <Summer update={update} type={type} />
     </Update>
   );
 };

@@ -142,7 +142,7 @@ const Nav = styled.nav`
     min-width: auto;
   }
 `;
-export default ({ type }) => {
+export default ({ type, history }) => {
   const dispatch = useDispatch();
   const [table, setTable] = useState(true);
   const { lang } = useContext(LangContext);
@@ -151,7 +151,7 @@ export default ({ type }) => {
     loading: state.board.loading,
     ip: state.board.ip
   }));
-
+  console.log(type);
   const [page, setPage] = useState(1);
 
   const formData = {
@@ -160,7 +160,16 @@ export default ({ type }) => {
   };
   useEffect(() => {
     dispatch(getBoard(formData));
-  }, [type, dispatch]);
+  }, [type, dispatch, table]);
+  useEffect(() => {
+    if (type !== 1) {
+      alert("준비중입니다.");
+      history.push("/");
+    }
+  }, [type]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <TableBox>
@@ -214,7 +223,7 @@ export default ({ type }) => {
       </TableBox>
       <SignUp>
         {ip ? (
-          <SignLink to="/investor/write">{lang.investor05}</SignLink>
+          <SignLink to={`/investor/write/${type}`}>{lang.investor05}</SignLink>
         ) : null}
       </SignUp>
       <Paging>

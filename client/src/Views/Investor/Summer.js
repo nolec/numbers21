@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactSummernote from "../../Utils/summernote";
-import "react-summernote/dist/react-summernote.css"; // import styles
+import "summernote/dist/summernote.css";
+// import "summer/dist/react-summernote.css"; // import styles
 import "../../Utils/lang/summernote-ko-KR"; // you can import any other locale
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
@@ -152,6 +153,7 @@ export default ({ write, update }) => {
   };
   useEffect(() => {
     if (detail && update) {
+      console.log(detail.content);
       ReactSummernote.pasteHTML(detail && detail.content);
     }
   }, [detail]);
@@ -198,7 +200,15 @@ export default ({ write, update }) => {
         file={files}
       />
       <BtnBox>
-        <Back to="/investor">목록보기</Back>
+        <Back
+          to={
+            update && update.update
+              ? `/investor/${updateData.type}`
+              : `/investor/${formData.type}`
+          }
+        >
+          목록보기
+        </Back>
         {update && update.update ? (
           <Btn onClick={updateHandle}>수정하기</Btn>
         ) : (

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { LangContext } from "../../Context";
 import { minDevice, device } from "../../device";
 import { withRouter } from "react-router-dom";
+import Scene from "./Scrollmagic";
 
 const Section = styled.section`
   ${props => props.theme.styles.SectionStyle};
@@ -13,6 +14,20 @@ const Section = styled.section`
 `;
 const Container = styled.div`
   ${props => props.theme.styles.ContainerStyle};
+  ${props =>
+    props.hash === ""
+      ? `> div {
+    opacity: 0;
+    transition: all 0.5s ease-out;
+    :not(:first-child) {
+      transform: translateY(-100px);
+    }
+  }
+  .active {
+    opacity: 1;
+    transform: translateY(0) !important;
+  }`
+      : null}
 `;
 const Title = styled.div`
   position: relative;
@@ -191,8 +206,11 @@ export default withRouter(({ location }) => {
   const eight = useRef(null);
   const seven = useRef(null);
   const sixth = useRef(null);
+  const load = useRef(null);
   useEffect(() => {
-    console.log(nine);
+    if (location.hash === "") Scene(load.current.children, 0.7, "active");
+  }, []);
+  useEffect(() => {
     if (location.hash === "") window.scrollTo(0, 0);
     if (location.hash === "#2019")
       window.scrollTo({
@@ -219,9 +237,10 @@ export default withRouter(({ location }) => {
         behavior: "smooth"
       });
   }, []);
+
   return (
     <Section>
-      <Container>
+      <Container ref={load} hash={location.hash}>
         <Title>
           <h2>{lang.timeline00}</h2>
         </Title>

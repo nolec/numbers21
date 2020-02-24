@@ -1,4 +1,5 @@
 import express from "express";
+import { mailSender } from "../middlewares/nodeMailer";
 
 const mailRoute = express.Router();
 

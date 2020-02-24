@@ -164,7 +164,7 @@ let ContactSchema = yup.object().shape({
     .max(100, "최대 100자 이하로 입력해 주세요")
     .required("메시지를 입력해 주세요")
 });
-export default () => {
+export default ({ location }) => {
   const classes = useStyles();
   const recaptchaRef = useRef(null);
   const inquiry = useRef(null);
@@ -172,11 +172,15 @@ export default () => {
 
   //--------------------------------------------
   const [active, setActive] = useState({
-    contact: true,
+    contact: false,
     biz: false,
     developers: false
   });
-  const [mailId, setMailId] = useState(0);
+  const { pathname } = location;
+  const contactId = parseInt(
+    pathname.split("/")[pathname.split("/").length - 1]
+  );
+  const [mailId, setMailId] = useState(contactId);
   const activeChange = e => {
     e.preventDefault();
     let current = e.currentTarget.hash.substring(1);
@@ -195,6 +199,7 @@ export default () => {
     // Array.prototype.slice
     //   .call(inquiry.current.children)
     //   .map(item => (item.children[0] === e.currentTarget ? "" : ""));
+    console.log(current, active, mailId);
   };
   const mailConfirm = values => {
     if (mailId === 0) values.id = 0;
@@ -204,8 +209,15 @@ export default () => {
   //--------------------------------------------
   const { lang } = useContext(LangContext);
   useEffect(() => {
+    setActive({
+      contact: contactId === 1 ? true : false,
+      biz: contactId === 2 ? true : false,
+      developers: contactId === 3 ? true : false
+    });
+
     window.scrollTo(0, 0);
-  }, []);
+  }, [contactId]);
+  console.log(active);
   return (
     <Section>
       <Container>

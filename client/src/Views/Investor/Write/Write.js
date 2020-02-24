@@ -10,7 +10,7 @@ export default ({ type, history }) => {
     type: type,
     history: history
   };
-
+  console.log(type);
   return (
     <Write>
       <Summer write={write} />
